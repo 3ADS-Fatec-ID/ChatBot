@@ -42,7 +42,7 @@ public class ProgressoDAO extends DAO {
             bd.close();
         }
     }
-    
+
     public Progresso pegarProgresso(int id) {
         String sql = "select * from Progresso where id = ?";
         bd.getConnection();
@@ -59,18 +59,12 @@ public class ProgressoDAO extends DAO {
             bd.close();
         }
     }
-    
+
     public Progresso pegarProgresso(Aluno aluno) {
-    	
-    	Pesquisa pesquisa = new Pesquisa(aluno.id);
-       	PesquisaDAO pesquisaDAO = new PesquisaDAO(new Pesquisa(aluno.id));
-       	pesquisa = pesquisaDAO.ultimaPesquisa();
-    	
-       	ProgressoDAO progressoDAO = new ProgressoDAO();
-       	Progresso progresso = new Progresso();
-       	progresso = progressoDAO.pegarProgresso(pesquisa.idProgresso);
-       	
-       	return progresso;
+        PesquisaDAO pesquisaDAO = new PesquisaDAO(new Pesquisa(aluno.id));
+        Pesquisa pesquisa = pesquisaDAO.ultimaPesquisa();
+
+        ProgressoDAO progressoDAO = new ProgressoDAO();
+        return progressoDAO.pegarProgresso(pesquisa.idProgresso);
     }
-    
 }

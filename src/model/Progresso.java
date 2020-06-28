@@ -15,6 +15,9 @@ public class Progresso {
     public String nomeProcesso;
 
     public static String cadastroInicial = "CAD_INICIO";
+    public static String cadastroCancelado = "CAD_INICIO_NEG";
+    public static String confirmacao = "CONF";
+    public static String negacao = "NEG";
 
     public Progresso() {
     }

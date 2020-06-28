@@ -27,8 +27,8 @@ public class PesquisaDAO extends DAO {
         try {
             bd.st = bd.con.prepareStatement(sql);
             bd.st.setString(1, pesquisa.corpo);
-            bd.st.setDate(2, Date.valueOf(localDate));
-            bd.st.setDate(3, Date.valueOf(localDate));
+            bd.st.setTimestamp(2, getCurrentTimeStamp());
+            bd.st.setTimestamp(3, getCurrentTimeStamp());
             bd.st.setInt(4, pesquisa.idProgresso);
             bd.st.setInt(5, pesquisa.idUsuario);
             bd.st.executeUpdate();

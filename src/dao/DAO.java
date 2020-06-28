@@ -5,8 +5,7 @@
  */
 package dao;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import services.BD;
 
 /**
@@ -15,8 +14,13 @@ import services.BD;
  */
 public class DAO {
 
-    LocalDateTime localDateTime = LocalDateTime.now();
-    LocalDate localDate = localDateTime.toLocalDate();
+	public static Timestamp getCurrentTimeStamp() {
+
+		java.util.Date today = new java.util.Date();
+		return new Timestamp(today.getTime());
+
+	}
+
     protected BD bd;
 
     public DAO() {

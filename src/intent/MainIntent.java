@@ -52,29 +52,10 @@ public class MainIntent extends Intent {
             /**
              * Fazer cadastro do aluno
              */
+        	
+        	
+        	
 
-            if (true) {
-                /**
-                 * Nunca vimos o usuário
-                 */
-
-                MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
-                MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.cadastroInicial);
-
-                String msg = mensagemDominio.corpoMensagemDominio;
-                msg = MessageManager.replaceValue(msg, "nome", aluno.nomeUsuario);
-
-                if (alunoDAO.cadastrar()) {
-                    aluno = alunoDAO.encontrarAluno();
-                    Progresso progresso = (new ProgressoDAO()).pegarProgresso(Progresso.cadastroInicial);
-                    Pesquisa pesquisa = new Pesquisa(progresso.id, aluno.id, msgRec);
-                    PesquisaDAO pesquisaDAO = new PesquisaDAO(pesquisa);
-                    pesquisaDAO.criarPesquisa();
-                }
-
-                return new IntentDTO(msg, aluno.idTelegram);
-            }
-            
             return new IntentDTO("", aluno.idTelegram); // Debug
         }
     }

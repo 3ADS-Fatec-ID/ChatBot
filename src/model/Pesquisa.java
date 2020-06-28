@@ -24,7 +24,12 @@ public class Pesquisa {
         this.corpo = corpo;
     }
     
-    public Pesquisa(int idProgresso, int idUsuario, String corpo) {
+    public Pesquisa(int idUsuario) {
+		super();
+		this.idUsuario = idUsuario;
+	}
+
+	public Pesquisa(int idProgresso, int idUsuario, String corpo) {
         this.idProgresso = idProgresso;
         this.idUsuario = idUsuario;
         this.corpo = corpo;

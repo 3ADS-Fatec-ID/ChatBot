@@ -6,6 +6,9 @@
 package dao;
 
 import java.sql.SQLException;
+
+import model.Aluno;
+import model.Pesquisa;
 import model.Progresso;
 
 /**
@@ -39,4 +42,35 @@ public class ProgressoDAO extends DAO {
             bd.close();
         }
     }
+    
+    public Progresso pegarProgresso(int id) {
+        String sql = "select * from Progresso where id = ?";
+        bd.getConnection();
+        try {
+            bd.st = bd.con.prepareStatement(sql);
+            bd.st.setInt(1, id);
+            bd.rs = bd.st.executeQuery();
+            bd.rs.next();
+            return new Progresso(bd.rs.getInt("id"),
+                    bd.rs.getString("nomeProgresso"));
+        } catch (SQLException erro) {
+            return null;
+        } finally {
+            bd.close();
+        }
+    }
+    
+    public Progresso pegarProgresso(Aluno aluno) {
+    	
+    	Pesquisa pesquisa = new Pesquisa(aluno.id);
+       	PesquisaDAO pesquisaDAO = new PesquisaDAO(new Pesquisa(aluno.id));
+       	pesquisa = pesquisaDAO.ultimaPesquisa();
+    	
+       	ProgressoDAO progressoDAO = new ProgressoDAO();
+       	Progresso progresso = new Progresso();
+       	progresso = progressoDAO.pegarProgresso(pesquisa.idProgresso);
+       	
+       	return progresso;
+    }
+    
 }

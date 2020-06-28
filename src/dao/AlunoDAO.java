@@ -12,17 +12,19 @@ public class AlunoDAO extends DAO {
     }
 
     public boolean cadastrar() {
-        String sql = "insert into Usuario ('nomeUsuario', 'id_telegram', 'criado_em', 'editado_em') values (?,?,?,?)";
+        String sql = "insert into Usuario (nomeUsuario, id_telegram,criado_em, editado_em) values (?,?,?,?)";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
             bd.st.setString(1, aluno.nomeUsuario);
             bd.st.setLong(2, aluno.idTelegram);
-            bd.st.setDate(3, Date.valueOf(localDate));
-            bd.st.setDate(4, Date.valueOf(localDate));
+            bd.st.setTimestamp(3, getCurrentTimeStamp());
+            bd.st.setTimestamp(4, getCurrentTimeStamp());
             bd.st.executeUpdate();
+            System.out.println("Cadastro OK!");
             return true;
         } catch (SQLException erro) {
+        	System.out.println(erro);
             return false;
         } finally {
             bd.close();
@@ -86,14 +88,14 @@ public class AlunoDAO extends DAO {
             int n = bd.st.executeUpdate();
             return n == 1;
         } catch (SQLException erro) {
-            return false;
+        	return false;
         } finally {
             bd.close();
         }
     }
 
     public boolean verificarCadastro() {
-        String sql = "select * from Usuario where id_telegram = ?";
+        String sql = "select * from Usuario where id_telegram = ? AND termoAceite = 1";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);

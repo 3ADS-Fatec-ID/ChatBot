@@ -89,7 +89,7 @@ tipo varchar (50) not null)
 
 create table Mensagem_Dominio (
 id int IDENTITY Primary Key,
-id_Processo int not null REFERENCES Progresso,
+id_Progresso int not null REFERENCES Progresso,
 corpoMensagemDominio varchar (500) not null,
 criado_em datetime not null,
 editado_em datetime not null,

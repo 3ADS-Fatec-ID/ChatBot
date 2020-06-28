@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package intents;
+package intent;
 
-import model.AlunoDAO;
+import dao.AlunoDAO;
+import model.Aluno;
 import services.MessageManager;
 
 /**
@@ -18,24 +19,26 @@ public class MainIntent extends Intent {
      * 0 - idTelegram 1 - nomeUsuario 2 - msgRec
      *
      * @param args
-     * @return 
+     * @return
      */
     @Override
     public IntentDTO run(String... args) {
-        AlunoDAO aluno = new AlunoDAO();
+        Aluno aluno = new Aluno();
 
         aluno.idTelegram = Long.parseLong(args[0]);
         aluno.nomeUsuario = args[1];
+
+        AlunoDAO alunoDAO = new AlunoDAO(aluno);
         String msgRec = args[2];
 
         System.out.println("Mensagem Recebida: " + msgRec + " - Nome: " + aluno.nomeUsuario + " - ChatId: " + aluno.idTelegram);
 
-        if (aluno.verificarCadastro()) {
+        if (alunoDAO.verificarCadastro()) {
             /**
              * Aluno Casdastrado
              */
 
-            String msg = "Olá {nome}, gostaríamos de conhecer um pouco mais sobre você para que eu possa te ajudar.";
+            String msg = "Olá {nome}, gostaríamos de conhecer um pouco mais sobre você para te ajudar.";
             msg = MessageManager.replaceValue(msg, "nome", aluno.nomeUsuario);
 
             return new IntentDTO(msg, aluno.idTelegram);
@@ -51,7 +54,7 @@ public class MainIntent extends Intent {
 
 //            message.setText("Não cadastrado " + update.getMessage().getFrom().getFirstName());
 //            message.setChatId(update.getMessage().getChatId());
-            System.out.println(aluno.cadastrar());
+            alunoDAO.cadastrar();
 
             String msg = "Aluno não cadastrado";
             return new IntentDTO(msg, aluno.idTelegram);

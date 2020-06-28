@@ -2,11 +2,21 @@ package model;
 
 public class Aluno {
 
-    //mapeia o banco de dados
     public int id, idCursoUniversidade;
     public long idTelegram;
     public boolean termoAceite;
     public String nomeUsuario;
+
+    public Aluno(int id, int idCursoUniversidade, long idTelegram, boolean termoAceite, String nomeUsuario) {
+        this.id = id;
+        this.idCursoUniversidade = idCursoUniversidade;
+        this.idTelegram = idTelegram;
+        this.termoAceite = termoAceite;
+        this.nomeUsuario = nomeUsuario;
+    }
+
+    public Aluno() {
+    }
 
     @Override
     public String toString() {

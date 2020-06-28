@@ -18,5 +18,4 @@ public class MensagemDominio {
     public String toString() {
         return "MensagemDominio{" + "nomeMensagemDominio=" + nomeMensagemDominio + ", corpoMensagemDominio=" + corpoMensagemDominio + ", idTipoMensagemDominio=" + idTipoMensagemDominio + '}';
     }
-
 }

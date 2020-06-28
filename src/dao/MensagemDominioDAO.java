@@ -7,10 +7,14 @@ import model.MensagemDominio;
 
 public class MensagemDominioDAO extends DAO {
 
-    private final MensagemDominio mensagemDominio;
+    private MensagemDominio mensagemDominio;
 
     public MensagemDominioDAO(MensagemDominio mensagemDominio) {
         this.mensagemDominio = mensagemDominio;
+    }
+
+    public MensagemDominioDAO() {
+        super();
     }
 
     public MensagemDominio findMessage() {

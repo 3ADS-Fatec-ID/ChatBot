@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.sql.SQLException;
 import model.Progresso;
 
 /**
@@ -13,9 +14,29 @@ import model.Progresso;
  */
 public class ProgressoDAO extends DAO {
 
-    private final Progresso progresso;
+    private Progresso progresso;
 
     public ProgressoDAO(Progresso progresso) {
         this.progresso = progresso;
+    }
+
+    public ProgressoDAO() {
+    }
+
+    public Progresso pegarProgresso(String nome) {
+        String sql = "select * from Progresso where nomeProgresso = ?";
+        bd.getConnection();
+        try {
+            bd.st = bd.con.prepareStatement(sql);
+            bd.st.setString(1, nome);
+            bd.rs = bd.st.executeQuery();
+            bd.rs.next();
+            return new Progresso(bd.rs.getInt("id"),
+                    bd.rs.getString("nomeProgresso"));
+        } catch (SQLException erro) {
+            return null;
+        } finally {
+            bd.close();
+        }
     }
 }

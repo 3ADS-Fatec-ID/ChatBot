@@ -14,6 +14,8 @@ public class Progresso {
     public int id;
     public String nomeProcesso;
 
+    public static String cadastroInicial = "CAD_INICIO";
+
     public Progresso() {
     }
 

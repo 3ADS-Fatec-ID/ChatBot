@@ -5,6 +5,8 @@
  */
 package dao;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import services.BD;
 
 /**
@@ -13,6 +15,8 @@ import services.BD;
  */
 public class DAO {
 
+    LocalDateTime localDateTime = LocalDateTime.now();
+    LocalDate localDate = localDateTime.toLocalDate();
     protected BD bd;
 
     public DAO() {

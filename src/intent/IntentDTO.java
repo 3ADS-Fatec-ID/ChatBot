@@ -25,5 +25,5 @@ public class IntentDTO {
 
     public Long getIdTelegram() {
         return idTelegram;
-    }   
+    }
 }

@@ -1,16 +1,10 @@
 package dao;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.sql.Date;
 import model.Aluno;
 
 public class AlunoDAO extends DAO {
-
-    LocalDateTime localDateTime = LocalDateTime.now();
-    LocalDate localDate = localDateTime.toLocalDate();
-
     private final Aluno aluno;
 
     public AlunoDAO(Aluno aluno) {
@@ -18,16 +12,14 @@ public class AlunoDAO extends DAO {
     }
 
     public boolean cadastrar() {
-        String sql = "insert into Usuario values (?,?,?,?,?,?)";
+        String sql = "insert into Usuario ('nomeUsuario', 'id_telegram', 'criado_em', 'editado_em') values (?,?,?,?)";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
             bd.st.setString(1, aluno.nomeUsuario);
             bd.st.setLong(2, aluno.idTelegram);
-            bd.st.setBoolean(3, aluno.termoAceite);
-            bd.st.setInt(4, aluno.idCursoUniversidade);
-            bd.st.setDate(5, Date.valueOf(localDate));
-            bd.st.setDate(6, Date.valueOf(localDate));
+            bd.st.setDate(3, Date.valueOf(localDate));
+            bd.st.setDate(4, Date.valueOf(localDate));
             bd.st.executeUpdate();
             return true;
         } catch (SQLException erro) {
@@ -35,7 +27,6 @@ public class AlunoDAO extends DAO {
         } finally {
             bd.close();
         }
-
     }
 
     public boolean alterarCurso() {
@@ -52,7 +43,38 @@ public class AlunoDAO extends DAO {
         } finally {
             bd.close();
         }
+    }
 
+    public boolean alterarUniversidade() {
+        String sql = "update Usuario set id_Universidade = ? where id = ?";
+        bd.getConnection();
+        try {
+            bd.st = bd.con.prepareStatement(sql);
+            bd.st.setInt(1, aluno.idUniversidade);
+            bd.st.setInt(2, aluno.id);
+            int n = bd.st.executeUpdate();
+            return n == 1;
+        } catch (SQLException erro) {
+            return false;
+        } finally {
+            bd.close();
+        }
+    }
+
+    public boolean alterarTermoAceite() {
+        String sql = "update Usuario set termoAceite = ? where id = ?";
+        bd.getConnection();
+        try {
+            bd.st = bd.con.prepareStatement(sql);
+            bd.st.setBoolean(1, aluno.termoAceite);
+            bd.st.setInt(2, aluno.id);
+            int n = bd.st.executeUpdate();
+            return n == 1;
+        } catch (SQLException erro) {
+            return false;
+        } finally {
+            bd.close();
+        }
     }
 
     public boolean excluir() {
@@ -97,7 +119,8 @@ public class AlunoDAO extends DAO {
                     bd.rs.getInt("id_curso_universidade"),
                     bd.rs.getInt("id_telegram"),
                     bd.rs.getBoolean("termoAceite"),
-                    bd.rs.getString("nomeUsuario"));
+                    bd.rs.getString("nomeUsuario"),
+                    bd.rs.getInt("id_Universidade"));
         } catch (SQLException erro) {
             return null;
         } finally {

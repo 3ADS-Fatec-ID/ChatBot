@@ -6,7 +6,13 @@
 package intent;
 
 import dao.AlunoDAO;
+import dao.MensagemDominioDAO;
+import dao.PesquisaDAO;
+import dao.ProgressoDAO;
 import model.Aluno;
+import model.MensagemDominio;
+import model.Pesquisa;
+import model.Progresso;
 import services.MessageManager;
 
 /**
@@ -47,17 +53,29 @@ public class MainIntent extends Intent {
              * Fazer cadastro do aluno
              */
 
-            aluno.idCursoUniversidade = 1;
-            aluno.termoAceite = true;
-//            System.out.println(update.getMessage().getFrom().getFirstName() + " - N�o cadastrado - " + update.getMessage().getFrom().getId());
-//            SendMessage message = new SendMessage();
+            if (true) {
+                /**
+                 * Nunca vimos o usuário
+                 */
 
-//            message.setText("Não cadastrado " + update.getMessage().getFrom().getFirstName());
-//            message.setChatId(update.getMessage().getChatId());
-            alunoDAO.cadastrar();
+                MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
+                MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.cadastroInicial);
 
-            String msg = "Aluno não cadastrado";
-            return new IntentDTO(msg, aluno.idTelegram);
+                String msg = mensagemDominio.corpoMensagemDominio;
+                msg = MessageManager.replaceValue(msg, "nome", aluno.nomeUsuario);
+
+                if (alunoDAO.cadastrar()) {
+                    aluno = alunoDAO.encontrarAluno();
+                    Progresso progresso = (new ProgressoDAO()).pegarProgresso(Progresso.cadastroInicial);
+                    Pesquisa pesquisa = new Pesquisa(progresso.id, aluno.id, msgRec);
+                    PesquisaDAO pesquisaDAO = new PesquisaDAO(pesquisa);
+                    pesquisaDAO.criarPesquisa();
+                }
+
+                return new IntentDTO(msg, aluno.idTelegram);
+            }
+            
+            return new IntentDTO("", aluno.idTelegram); // Debug
         }
     }
 

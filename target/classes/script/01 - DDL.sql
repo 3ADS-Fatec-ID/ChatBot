@@ -40,7 +40,7 @@ editado_em datetime not null)
 
 create table Progresso (
 id int IDENTITY Primary Key,
-nomeProcesso varchar (50) not null)
+nomeProgresso varchar (50) not null)
 
 create table Pesquisa (
 id int IDENTITY Primary Key,
@@ -89,7 +89,7 @@ tipo varchar (50) not null)
 
 create table Mensagem_Dominio (
 id int IDENTITY Primary Key,
-id_Processo int not null REFERENCES Progresso,
+id_Progresso int not null REFERENCES Progresso,
 corpoMensagemDominio varchar (500) not null,
 criado_em datetime not null,
 editado_em datetime not null,

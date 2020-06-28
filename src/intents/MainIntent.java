@@ -6,8 +6,6 @@
 package intents;
 
 import model.AlunoDAO;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import services.MessageManager;
 
 /**
@@ -37,7 +35,7 @@ public class MainIntent extends Intent {
              * Aluno Casdastrado
              */
 
-            String msg = "Ol� {nome}, gostar�amos de conhecer um pouco mais sobre voc� para que eu possa te ajudar.";
+            String msg = "Olá {nome}, gostaríamos de conhecer um pouco mais sobre você para que eu possa te ajudar.";
             msg = MessageManager.replaceValue(msg, "nome", aluno.nomeUsuario);
 
             return new IntentDTO(msg, aluno.idTelegram);
@@ -51,7 +49,7 @@ public class MainIntent extends Intent {
 //            System.out.println(update.getMessage().getFrom().getFirstName() + " - N�o cadastrado - " + update.getMessage().getFrom().getId());
 //            SendMessage message = new SendMessage();
 
-//            message.setText("N�o cadastrado " + update.getMessage().getFrom().getFirstName());
+//            message.setText("Não cadastrado " + update.getMessage().getFrom().getFirstName());
 //            message.setChatId(update.getMessage().getChatId());
             System.out.println(aluno.cadastrar());
 

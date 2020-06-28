@@ -34,13 +34,14 @@ id int IDENTITY Primary Key,
 nomeUsuario varchar (500) not null,
 id_telegram bigint UNIQUE not null,
 termoAceite bit not null,
-id_curso_universidade int not null REFERENCES Curso_Universidade,
+id_Universidade int REFERENCES Universidade,
+id_curso_universidade int REFERENCES Curso_Universidade,
 criado_em datetime not null,
 editado_em datetime not null)
 
 create table Progresso (
 id int IDENTITY Primary Key,
-nomeProgresso varchar (50) not null)
+nomeProgresso varchar (50) UNIQUE not null)
 
 create table Pesquisa (
 id int IDENTITY Primary Key,

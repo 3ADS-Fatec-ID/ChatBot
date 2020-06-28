@@ -47,7 +47,7 @@ public class MensagemDominioDAO extends DAO {
     }
 
     public MensagemDominio findMessage(String nomeProgresso) {
-        String sql = "select * from mensagem_dominio JOIN Progresso ON Progresso.nomeProgresso = ? WHERE id_Tipo_Mensagem_Dominio = ?";
+        String sql = "select * from Mensagem_Dominio md, Progresso p where md.id_Progresso = p.id and p.nomeProgresso = ?";
         bd.getConnection();
 
         ArrayList<MensagemDominio> md = new ArrayList<>();
@@ -55,7 +55,6 @@ public class MensagemDominioDAO extends DAO {
         try {
             bd.st = bd.con.prepareStatement(sql);
             bd.st.setString(1, nomeProgresso);
-            bd.st.setInt(2, mensagemDominio.idTipoMensagemDominio);
             bd.rs = bd.st.executeQuery();
 
             while (bd.rs.next()) {

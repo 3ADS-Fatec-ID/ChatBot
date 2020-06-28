@@ -19,7 +19,7 @@ public class MensagemDominioDAO extends MensagemDominio {
         sql = "select * from mensagem_dominio where nomeMensagemDominio = ? and id_Tipo_Mensagem_Dominio = ?";
         bd.getConnection();
 
-        ArrayList<MensagemDominio> md = new ArrayList<MensagemDominio>();
+        ArrayList<MensagemDominio> md = new ArrayList<>();
 
         try {
             bd.st = bd.con.prepareStatement(sql);

@@ -35,3 +35,4 @@ INSERT INTO ACERVO VALUES ('Salvador, Artur Persichitti Porto','A acuracidade de
 INSERT INTO ACERVO VALUES ('Buzo, Efraim da Silva','Agendamento digital para serviços de Pet Shop','Janaine Cristiane de Souza Arantes','2016-07-01',GETDATE())
 INSERT INTO ACERVO VALUES ('Silva, Ana Paula Pereira da','Agendamento digital para serviços de Pet Shop','José Estanislau Sigrist','2014-12-01',GETDATE())
 
+SELECT * FROM ACERVO

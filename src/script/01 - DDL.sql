@@ -40,7 +40,7 @@ editado_em datetime not null)
 
 create table Progresso (
 id int IDENTITY Primary Key,
-nomeProcesso varchar (50) not null)
+nomeProgresso varchar (50) not null)
 
 create table Pesquisa (
 id int IDENTITY Primary Key,

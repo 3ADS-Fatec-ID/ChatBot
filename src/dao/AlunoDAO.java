@@ -1,22 +1,19 @@
 package dao;
 
 import java.sql.SQLException;
-import services.BD;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.sql.Date;
 import model.Aluno;
 
-public class AlunoDAO {
+public class AlunoDAO extends DAO {
 
     LocalDateTime localDateTime = LocalDateTime.now();
     LocalDate localDate = localDateTime.toLocalDate();
 
-    private final BD bd;
     private final Aluno aluno;
 
     public AlunoDAO(Aluno aluno) {
-        this.bd = new BD();
         this.aluno = aluno;
     }
 

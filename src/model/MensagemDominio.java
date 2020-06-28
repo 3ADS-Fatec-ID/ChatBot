@@ -2,13 +2,13 @@ package model;
 
 public class MensagemDominio {
 
-    public String nomeMensagemDominio, corpoMensagemDominio;
-    public int idTipoMensagemDominio;
+    public String corpoMensagemDominio;
+    public int idTipoMensagemDominio, idProgesso;
 
-    public MensagemDominio(String nomeMensagemDominio, String corpoMensagemDominio, int idTipoMensagemDominio) {
-        this.nomeMensagemDominio = nomeMensagemDominio;
+    public MensagemDominio(String corpoMensagemDominio, int idTipoMensagemDominio, int idProgresso) {
         this.corpoMensagemDominio = corpoMensagemDominio;
         this.idTipoMensagemDominio = idTipoMensagemDominio;
+        this.idProgesso = idProgresso;
     }
 
     public MensagemDominio() {
@@ -16,6 +16,6 @@ public class MensagemDominio {
 
     @Override
     public String toString() {
-        return "MensagemDominio{" + "nomeMensagemDominio=" + nomeMensagemDominio + ", corpoMensagemDominio=" + corpoMensagemDominio + ", idTipoMensagemDominio=" + idTipoMensagemDominio + '}';
+        return "MensagemDominio{" + "corpoMensagemDominio=" + corpoMensagemDominio + ", idTipoMensagemDominio=" + idTipoMensagemDominio + ", idProgesso=" + idProgesso + '}';
     }
 }

@@ -1,6 +1,6 @@
 package services;
 
-import intents.MainIntent;
+import intent.MainIntent;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -14,7 +14,7 @@ public class Telegram extends TelegramLongPollingBot {
         Message message = update.getMessage();
 
         MainIntent mainIntent = new MainIntent();
-        intents.IntentDTO response = mainIntent.run(message.getFrom().getId().toString(), message.getFrom().getFirstName(), message.getText());
+        intent.IntentDTO response = mainIntent.run(message.getFrom().getId().toString(), message.getFrom().getFirstName(), message.getText());
         sendMessage(response.getMessage(), response.getIdTelegram());
     }
 

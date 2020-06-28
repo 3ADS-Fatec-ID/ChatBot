@@ -1,17 +1,18 @@
 package teste;
 
-import model.AlunoDAO;
+import dao.AlunoDAO;
+import model.Aluno;
 
 public class AlunoInserir {
 
     public static void main(String[] args) {
-        AlunoDAO dao = new AlunoDAO();
-        dao.nomeUsuario = "Fernando";
-        dao.idTelegram = 880756362;
-        dao.termoAceite = true;
-        dao.idCursoUniversidade = 1;
+        Aluno aluno = new Aluno();
+        aluno.nomeUsuario = "Fernando";
+        aluno.idTelegram = 880756362;
+        aluno.termoAceite = true;
+        aluno.idCursoUniversidade = 1;
+
+        AlunoDAO dao = new AlunoDAO(aluno);
         System.out.println(dao.cadastrar());
-
     }
-
 }

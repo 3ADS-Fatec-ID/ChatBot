@@ -1,6 +1,6 @@
 package model;
 
-public class Mensagem_Dominio {
+public class MensagemDominio {
 
 	public String nomeMensagemDominio,corpoMensagemDominio;
 	public int id_Tipo_Mensagem_Dominio;

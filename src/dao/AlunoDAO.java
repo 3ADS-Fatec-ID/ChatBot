@@ -144,5 +144,18 @@ public class AlunoDAO extends DAO {
             bd.close();
         }
     }
-
+    
+    public void cancelarCurso() {
+        String sql = "update Usuario set id_curso_universidade = NULL where id = ?";
+        bd.getConnection();
+        try {
+            bd.st = bd.con.prepareStatement(sql);
+            bd.st.setInt(1, aluno.id);
+            bd.st.executeUpdate();
+        } catch (SQLException erro) {
+            System.out.println(erro.toString());
+        } finally {
+            bd.close();
+        }
+    }
 }

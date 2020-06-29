@@ -6,13 +6,7 @@
 package intent;
 
 import dao.AlunoDAO;
-import dao.MensagemDominioDAO;
-import dao.PesquisaDAO;
-import dao.ProgressoDAO;
 import model.Aluno;
-import model.MensagemDominio;
-import model.Pesquisa;
-import model.Progresso;
 import services.MessageManager;
 
 /**

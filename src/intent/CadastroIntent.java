@@ -6,6 +6,7 @@
 package intent;
 
 import dao.AlunoDAO;
+import dao.CursoDAO;
 import java.lang.invoke.SwitchPoint;
 
 import dao.MensagemDominioDAO;
@@ -13,6 +14,7 @@ import dao.PesquisaDAO;
 import dao.ProgressoDAO;
 import dao.UniversidadeDAO;
 import model.Aluno;
+import model.Curso;
 import model.MensagemDominio;
 import model.Pesquisa;
 import model.Progresso;
@@ -53,7 +55,7 @@ public class CadastroIntent extends Intent {
                     return cancelarCadastro(alunoEncontrado, message);
                 }
             } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroCancelado)) {
-                return primeiroAcessoCancelado(alunoDAO, alunoEncontrado, message);
+                return primeiroAcessoCancelado(alunoEncontrado, message);
             } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidade) || Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidadeRespostaNegativa) || Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidadeCancelado)) {
                 return cadastrarUniversidade(alunoEncontrado, message);
             } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidadeResposta)) {
@@ -61,6 +63,14 @@ public class CadastroIntent extends Intent {
                     return pedirCurso(alunoEncontrado, message);
                 } else {
                     return cancelarUniversidade(alunoEncontrado, message);
+                }
+            } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroCurso) || Str.equals(progresso.nomeProgresso, Progresso.cadastroCursoNegativa) || Str.equals(progresso.nomeProgresso, Progresso.cadastroCursoRespostaNegativa)) {
+                return cadastrarCurso(alunoEncontrado, message);
+            } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroCursoResposta)) {
+                if (MessageManager.checkAnswer(message)) {
+                    return new IntentDTO("Parabéns, você foi cadastrado", aluno.idTelegram);
+                } else {
+                    return cancelarCurso(alunoEncontrado, message);
                 }
             }
         }
@@ -123,7 +133,7 @@ public class CadastroIntent extends Intent {
         return new IntentDTO(msg, aluno.idTelegram);
     }
 
-    private IntentDTO primeiroAcessoCancelado(AlunoDAO alunoDAO, Aluno aluno, String message) {
+    private IntentDTO primeiroAcessoCancelado(Aluno aluno, String message) {
         /**
          * Nunca vimos o usuário
          */
@@ -216,4 +226,64 @@ public class CadastroIntent extends Intent {
         String msg = mensagemDominio.corpoMensagemDominio;
         return new IntentDTO(msg, aluno.idTelegram);
     }
+
+    private IntentDTO cadastrarCurso(Aluno aluno, String message) {
+        Curso curso = new Curso();
+        curso.nomeCurso = message;
+        curso.siglaCurso = message;
+        CursoDAO cursoDAO = new CursoDAO(curso);
+        Curso cursoEncontrado = cursoDAO.pegarCurso(aluno.idUniversidade);
+
+        String msg;
+
+        if (cursoEncontrado == null) {
+            MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
+            MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.cadastroCursoNegativa);
+
+            msg = mensagemDominio.corpoMensagemDominio;
+
+            Progresso progresso = (new ProgressoDAO()).pegarProgresso(Progresso.cadastroCursoNegativa);
+            Pesquisa pesquisa = new Pesquisa(progresso.id, aluno.id, message);
+            PesquisaDAO pesquisaDAO = new PesquisaDAO(pesquisa);
+            pesquisaDAO.criarPesquisa();
+        } else {
+            aluno.idCursoUniversidade = cursoEncontrado.idCursoUniversidade;
+            AlunoDAO alunoDAO = new AlunoDAO(aluno);
+            alunoDAO.alterarCurso();
+
+            MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
+            MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.cadastroCursoResposta);
+
+            msg = mensagemDominio.corpoMensagemDominio;
+            msg = MessageManager.replaceValue(msg, "curso", cursoEncontrado.nomeCurso);
+
+            Progresso progresso = (new ProgressoDAO()).pegarProgresso(Progresso.cadastroCursoResposta);
+            Pesquisa pesquisa = new Pesquisa(progresso.id, aluno.id, message);
+            PesquisaDAO pesquisaDAO = new PesquisaDAO(pesquisa);
+            pesquisaDAO.criarPesquisa();
+        }
+
+        return new IntentDTO(msg, aluno.idTelegram);
+    }
+    
+    private IntentDTO cancelarCurso(Aluno aluno, String message) {
+        /**
+         * O usuário cancelou a universidade
+         */
+
+        AlunoDAO alunoDAO = new AlunoDAO(aluno);
+        alunoDAO.cancelarCurso();
+
+        MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
+        MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.cadastroCursoNegativa);
+
+        Progresso progresso = (new ProgressoDAO()).pegarProgresso(Progresso.cadastroCursoNegativa);
+        Pesquisa pesquisa = new Pesquisa(progresso.id, aluno.id, message);
+        PesquisaDAO pesquisaDAO = new PesquisaDAO(pesquisa);
+        pesquisaDAO.criarPesquisa();
+
+        String msg = mensagemDominio.corpoMensagemDominio;
+        return new IntentDTO(msg, aluno.idTelegram);
+    }
+
 }

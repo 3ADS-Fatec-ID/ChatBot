@@ -1,17 +1,18 @@
 package model;
 
-public class Curso extends Universidade {
+public class Curso {
 
-    public int id;
+    public int id, idCursoUniversidade;
     public String siglaCurso, nomeCurso;
 
     public Curso() {
     }
 
-    public Curso(int id, String siglaCurso, String nomeCurso) {
+    public Curso(int id, String siglaCurso, String nomeCurso, int idCursoUniversidade) {
         this.id = id;
         this.siglaCurso = siglaCurso;
         this.nomeCurso = nomeCurso;
+        this.idCursoUniversidade = idCursoUniversidade;
     }
 
     @Override

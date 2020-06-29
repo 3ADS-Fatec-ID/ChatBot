@@ -22,6 +22,8 @@ public class Progresso {
     public static String cadastroUniversidadeRespostaNegativa = "CAD_RES_UNI_NEG";
     public static String cadastroCurso = "CAD_CURSO";
     public static String cadastroCursoNegativa = "CAD_CURSO_NEG";
+    public static String cadastroCursoResposta = "CAD_CURSO_RESP";
+    public static String cadastroCursoRespostaNegativa = "CAD_CURSO_RESP_NEG";
 
 //INSERT INTO Progresso VALUES ('CAD_RES_UNI')
 //INSERT INTO Progresso VALUES ('CAD_RES_UNI_NEG')

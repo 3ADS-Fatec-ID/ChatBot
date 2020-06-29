@@ -88,6 +88,7 @@ public class CadastroIntent extends Intent {
         MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
         MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.cadastroInicial);
 
+        System.out.println("Cadastro Universidade!");
         String msg = mensagemDominio.corpoMensagemDominio;
         msg = MessageManager.replaceValue(msg, "nome", aluno.nomeUsuario);
 

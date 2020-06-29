@@ -24,11 +24,11 @@ public class UniversidadeDAO extends DAO {
     }
 
     public Universidade pegarUniversidade() {
-        String sql = "select * from Universidade where nomeUniversidade like '%?%'";
+        String sql = "select * from Universidade where nomeUniversidade like ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setString(1, universidade.nomeUniversidade);
+            bd.st.setString(1, "%" + universidade.nomeUniversidade + "%");
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
             return new Universidade(bd.rs.getInt("id"),

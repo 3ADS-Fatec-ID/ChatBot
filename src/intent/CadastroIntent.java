@@ -54,9 +54,9 @@ public class CadastroIntent extends Intent {
                 }
             } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroCancelado)) {
                 return primeiroAcessoCancelado(alunoDAO, alunoEncontrado, message);
-            } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidade)
-                    || Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidadeRespostaNegativa)
-                    || Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidadeCancelado)) {
+            } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidadeCancelado)) {
+                return pedirUniversidade(alunoEncontrado, message);
+            } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidade) || Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidadeRespostaNegativa)) {
                 return cadastrarUniversidade(alunoEncontrado, message);
             } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidadeResposta)) {
                 if (MessageManager.checkAnswer(message)) {

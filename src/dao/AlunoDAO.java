@@ -136,9 +136,8 @@ public class AlunoDAO extends DAO {
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, aluno.idUniversidade);
-            bd.st.setInt(2, aluno.id);
-            int n = bd.st.executeUpdate();
+            bd.st.setInt(1, aluno.id);
+            bd.st.executeUpdate();
         } catch (SQLException erro) {
             System.out.println(erro.toString());
         } finally {

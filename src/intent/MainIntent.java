@@ -37,11 +37,8 @@ public class MainIntent extends Intent {
             /**
              * Aluno Casdastrado
              */
-            
-            String msg = "Olá {nome}, gostaríamos de conhecer um pouco mais sobre você para te ajudar.";
-            msg = MessageManager.replaceValue(msg, "nome", aluno.nomeUsuario);
-            
-            return new IntentDTO(msg, aluno.idTelegram);
+           
+            return new IntentDTO("Parabéns, você foi cadastrado", aluno.idTelegram);
         } else {
             /**
              * Fazer cadastro do aluno

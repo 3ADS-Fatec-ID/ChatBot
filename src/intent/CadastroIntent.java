@@ -44,15 +44,14 @@ public class CadastroIntent extends Intent {
             ProgressoDAO progressoDAO = new ProgressoDAO();
             Progresso progresso = progressoDAO.pegarProgresso(alunoEncontrado);
 
-            if (progresso != null) {
-                if (Str.equals(progresso.nomeProcesso, Progresso.cadastroInicial)) {
-                    
-                    if (MessageManager.checkAnswer(message)) {
-                        return cadastrarUniversidade(alunoEncontrado);
-                    } else {
-                        return cancelarCadastro(alunoEncontrado, message);
-                    }
+            if (Str.equals(progresso.nomeProcesso, Progresso.cadastroInicial)) {
+                if (MessageManager.checkAnswer(message)) {
+                    return cadastrarUniversidade(alunoEncontrado);
+                } else {
+                    return cancelarCadastro(alunoEncontrado, message);
                 }
+            } else if (Str.equals(progresso.nomeProcesso, Progresso.cadastroCancelado)) {
+                return primeiroAcessoCancelado(alunoDAO, alunoEncontrado, message);
             }
         }
 
@@ -108,12 +107,31 @@ public class CadastroIntent extends Intent {
          */
         MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
         MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.cadastroCancelado);
-        
+
         Progresso progresso = (new ProgressoDAO()).pegarProgresso(Progresso.cadastroCancelado);
         Pesquisa pesquisa = new Pesquisa(progresso.id, aluno.id, message);
         PesquisaDAO pesquisaDAO = new PesquisaDAO(pesquisa);
         pesquisaDAO.criarPesquisa();
         String msg = mensagemDominio.corpoMensagemDominio;
+        return new IntentDTO(msg, aluno.idTelegram);
+    }
+
+    private IntentDTO primeiroAcessoCancelado(AlunoDAO alunoDAO, Aluno aluno, String message) {
+        /**
+         * Nunca vimos o usuário
+         */
+
+        MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
+        MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.cadastroInicial);
+
+        String msg = mensagemDominio.corpoMensagemDominio;
+        msg = MessageManager.replaceValue(msg, "nome", aluno.nomeUsuario);
+
+        Progresso progresso = (new ProgressoDAO()).pegarProgresso(Progresso.cadastroInicial);
+        Pesquisa pesquisa = new Pesquisa(progresso.id, aluno.id, message);
+        PesquisaDAO pesquisaDAO = new PesquisaDAO(pesquisa);
+        pesquisaDAO.criarPesquisa();
+
         return new IntentDTO(msg, aluno.idTelegram);
     }
 }

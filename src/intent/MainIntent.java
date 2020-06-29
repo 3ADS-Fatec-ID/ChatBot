@@ -38,7 +38,7 @@ public class MainIntent extends Intent {
              * Aluno Casdastrado
              */
            
-            return new IntentDTO("Parabéns, você foi cadastrado", aluno.idTelegram);
+            return (new PesquisaIntent()).run(args[0], args[1], args[2]);
         } else {
             /**
              * Fazer cadastro do aluno

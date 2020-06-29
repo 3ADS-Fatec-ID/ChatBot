@@ -7,7 +7,6 @@ package intent;
 
 import dao.AlunoDAO;
 import dao.CursoDAO;
-import java.lang.invoke.SwitchPoint;
 
 import dao.MensagemDominioDAO;
 import dao.PesquisaDAO;

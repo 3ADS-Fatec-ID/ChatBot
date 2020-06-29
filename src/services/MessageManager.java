@@ -29,7 +29,7 @@ public class MessageManager {
         return positivas.stream().anyMatch(mensagemDominio -> (mensagemDominio.corpoMensagemDominio.equals(text.toLowerCase())));
     }
 
-    public static String[] extractKeywords(String text) throws IOException {
+    public static Result extractKeywords(String text) throws IOException {
         // Create an object to hold algorithm parameters
         String[] stopWords = new SmartWords().getSmartWords();
         String[] stopPOS = {"VB", "VBD", "VBG", "VBN", "VBP", "VBZ"};
@@ -46,7 +46,7 @@ public class MessageManager {
         // Call the rake method
         Result result = rakeAlg.rake(text);
 
-        return result.getStemmedKeywords();
+        return result.distinct();
     }
 
 }

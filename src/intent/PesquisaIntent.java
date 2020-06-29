@@ -7,8 +7,6 @@ package intent;
 
 import dao.AlunoDAO;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Aluno;
 import services.MessageManager;
 

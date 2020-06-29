@@ -24,7 +24,7 @@ public class CursoDAO extends DAO {
     }
 
     public Curso pegarCurso(int idUniversidade) {
-        String sql = "SELECT *, c_u.id as Id_Curso_Universidade FROM Curso c, Curso_Universidade c_u WHERE c.id = c_u.id_curso AND c_u.id_universidade = ? AND (c.nomeCurso LIKE ? OR c.siglaCurso like ?)";
+        String sql = "SELECT c.id as id, siglaCurso, nomeCurso, c_u.id as Id_Curso_Universidade FROM Curso c, Curso_Universidade c_u WHERE c.id = c_u.id_curso AND c_u.id_universidade = ? AND (c.nomeCurso LIKE ? OR c.siglaCurso like ?)";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);

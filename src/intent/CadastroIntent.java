@@ -42,17 +42,20 @@ public class CadastroIntent extends Intent {
         ProgressoDAO progressoDAO = new ProgressoDAO();
         Progresso progresso = progressoDAO.pegarProgresso(aluno);
 
-        if (Str.equals(progresso.nomeProcesso, Progresso.cadastroInicial)) {
-            System.out.println("Progresso está em cadastroInicial");
-            if (MessageManager.checkAnswer(message)) {
-                return cadastrarUniversidade(aluno);
-            } else {
-                return cancelarCadastro(aluno);
+        if (progresso != null) {
+            if (Str.equals(progresso.nomeProcesso, Progresso.cadastroInicial)) {
+                System.out.println("Progresso está em cadastroInicial");
+                if (MessageManager.checkAnswer(message)) {
+                    return cadastrarUniversidade(aluno);
+                } else {
+                    return cancelarCadastro(aluno);
+                }
+            } else if (Str.equals(progresso.nomeProcesso, Progresso.cadastroCancelado)) {
+                return primeiroAcesso(alunoDAO, aluno, message);
             }
-        } else if (Str.equals(progresso.nomeProcesso, Progresso.cadastroCancelado)) {
-            return primeiroAcesso(alunoDAO, aluno, message);
         } else {
             return primeiroAcesso(alunoDAO, aluno, message);
+
         }
     }
 

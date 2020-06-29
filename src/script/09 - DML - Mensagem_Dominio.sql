@@ -54,11 +54,14 @@ INSERT INTO Mensagem_Dominio VALUES (15,'aham',GETDATE(),GETDATE(),9)
 INSERT INTO Mensagem_Dominio VALUES (15,'positivo',GETDATE(),GETDATE(),9)
 INSERT INTO Mensagem_Dominio VALUES (15,'exato',GETDATE(),GETDATE(),9)
 INSERT INTO Mensagem_Dominio VALUES (15,'com certeza',GETDATE(),GETDATE(),9)
-INSERT INTO Mensagem_Dominio VALUES (15,'OK',GETDATE(),GETDATE(),9)
-INSERT INTO Mensagem_Dominio VALUES (15,'Beleza',GETDATE(),GETDATE(),9)
+INSERT INTO Mensagem_Dominio VALUES (15,'ok',GETDATE(),GETDATE(),9)
+INSERT INTO Mensagem_Dominio VALUES (15,'beleza',GETDATE(),GETDATE(),9)
 INSERT INTO Mensagem_Dominio VALUES (15,'okey',GETDATE(),GETDATE(),9)
 INSERT INTO Mensagem_Dominio VALUES (15,'blz',GETDATE(),GETDATE(),9)
 INSERT INTO Mensagem_Dominio VALUES (16,'Você permite que todas as suas informações sejam armazenadas e utilizadas para a melhoria do aplicativo?',GETDATE(),GETDATE(),1)
 
 
 SELECT * FROM Mensagem_Dominio 
+
+
+

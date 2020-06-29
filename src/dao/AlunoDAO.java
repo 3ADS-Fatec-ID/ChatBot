@@ -5,6 +5,7 @@ import java.sql.Date;
 import model.Aluno;
 
 public class AlunoDAO extends DAO {
+
     private final Aluno aluno;
 
     public AlunoDAO(Aluno aluno) {
@@ -24,7 +25,7 @@ public class AlunoDAO extends DAO {
             System.out.println("Cadastro OK!");
             return true;
         } catch (SQLException erro) {
-        	System.out.println(erro);
+            System.out.println(erro);
             return false;
         } finally {
             bd.close();
@@ -88,7 +89,7 @@ public class AlunoDAO extends DAO {
             int n = bd.st.executeUpdate();
             return n == 1;
         } catch (SQLException erro) {
-        	return false;
+            return false;
         } finally {
             bd.close();
         }
@@ -125,6 +126,21 @@ public class AlunoDAO extends DAO {
                     bd.rs.getInt("id_Universidade"));
         } catch (SQLException erro) {
             return null;
+        } finally {
+            bd.close();
+        }
+    }
+
+    public void cancelarUniversidade() {
+        String sql = "update Usuario set id_Universidade = NULL where id = ?";
+        bd.getConnection();
+        try {
+            bd.st = bd.con.prepareStatement(sql);
+            bd.st.setInt(1, aluno.idUniversidade);
+            bd.st.setInt(2, aluno.id);
+            int n = bd.st.executeUpdate();
+        } catch (SQLException erro) {
+            System.out.println(erro.toString());
         } finally {
             bd.close();
         }

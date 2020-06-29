@@ -5,6 +5,13 @@
  */
 package intent;
 
+import dao.AlunoDAO;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Aluno;
+import services.MessageManager;
+
 /**
  *
  * @author joao
@@ -13,7 +20,21 @@ public class PesquisaIntent extends Intent {
 
     @Override
     public IntentDTO run(String... args) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Aluno aluno = new Aluno();
+        aluno.idTelegram = Long.parseLong(args[0]);
+        aluno.nomeUsuario = args[1];
+        String message = args[2];
+
+        AlunoDAO alunoDAO = new AlunoDAO(aluno);
+
+        Aluno alunoEncontrado = alunoDAO.encontrarAluno();
+        
+        try {
+            return new IntentDTO(String.join(", ", MessageManager.extractKeywords(message)), alunoEncontrado.idTelegram);
+        } catch (IOException ex) {
+            System.err.println(ex.toString());
+            return new IntentDTO(ex.toString(), alunoEncontrado.idTelegram);
+        }
     }
     
 }

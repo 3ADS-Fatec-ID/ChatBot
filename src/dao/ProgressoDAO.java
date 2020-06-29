@@ -61,14 +61,17 @@ public class ProgressoDAO extends DAO {
     }
 
     public Progresso pegarProgresso(Aluno aluno) {
-        PesquisaDAO pesquisaDAO = new PesquisaDAO(new Pesquisa(aluno.id));
+    	PesquisaDAO pesquisaDAO = new PesquisaDAO(new Pesquisa(aluno.id));
         Pesquisa pesquisa = pesquisaDAO.ultimaPesquisa();
 
         if (pesquisa == null) {
             return null;
         } else {
             ProgressoDAO progressoDAO = new ProgressoDAO();
-            return progressoDAO.pegarProgresso(pesquisa.idProgresso);
+            Progresso progresso = progressoDAO.pegarProgresso(pesquisa.idProgresso);
+            System.out.println("Progresso está em: "+progresso.nomeProcesso);
+            return progresso;
         }
+        
     }
 }

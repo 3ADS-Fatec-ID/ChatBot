@@ -46,11 +46,11 @@ public class CadastroIntent extends Intent {
 
             if (progresso != null) {
                 if (Str.equals(progresso.nomeProcesso, Progresso.cadastroInicial)) {
-                    System.out.println("Progresso está em cadastroInicial");
+                    
                     if (MessageManager.checkAnswer(message)) {
                         return cadastrarUniversidade(alunoEncontrado);
                     } else {
-                        return cancelarCadastro(alunoEncontrado);
+                        return cancelarCadastro(alunoEncontrado, message);
                     }
                 }
             }
@@ -102,13 +102,17 @@ public class CadastroIntent extends Intent {
         return new IntentDTO(msg, aluno.idTelegram);
     }
 
-    private IntentDTO cancelarCadastro(Aluno aluno) {
+    private IntentDTO cancelarCadastro(Aluno aluno, String message) {
         /**
          * O usuário cancelou o cadastro
          */
         MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
         MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.cadastroCancelado);
-
+        
+        Progresso progresso = (new ProgressoDAO()).pegarProgresso(Progresso.cadastroCancelado);
+        Pesquisa pesquisa = new Pesquisa(progresso.id, aluno.id, message);
+        PesquisaDAO pesquisaDAO = new PesquisaDAO(pesquisa);
+        pesquisaDAO.criarPesquisa();
         String msg = mensagemDominio.corpoMensagemDominio;
         return new IntentDTO(msg, aluno.idTelegram);
     }

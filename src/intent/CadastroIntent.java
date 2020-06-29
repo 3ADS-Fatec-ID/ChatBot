@@ -208,7 +208,7 @@ public class CadastroIntent extends Intent {
         MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
         MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.cadastroCancelado);
 
-        Progresso progresso = (new ProgressoDAO()).pegarProgresso(Progresso.cadastroUniversidadeCancelado);
+        Progresso progresso = (new ProgressoDAO()).pegarProgresso(Progresso.cadastroCancelado);
         Pesquisa pesquisa = new Pesquisa(progresso.id, aluno.id, message);
         PesquisaDAO pesquisaDAO = new PesquisaDAO(pesquisa);
         pesquisaDAO.criarPesquisa();

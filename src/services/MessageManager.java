@@ -6,6 +6,7 @@ import io.github.crew102.rapidrake.data.SmartWords;
 import io.github.crew102.rapidrake.model.RakeParams;
 import io.github.crew102.rapidrake.model.Result;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import model.MensagemDominio;
 import model.Progresso;
@@ -44,7 +45,9 @@ public class MessageManager {
         RakeAlgorithm rakeAlg = new RakeAlgorithm(params, POStaggerURL, SentDetecURL);
 
         // Call the rake method
-        Result result = rakeAlg.rake(text);
+        String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
+        String accentRemoved = normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        Result result = rakeAlg.rake(accentRemoved);
 
         return result.distinct();
     }

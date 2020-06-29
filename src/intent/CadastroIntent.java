@@ -54,9 +54,7 @@ public class CadastroIntent extends Intent {
                 }
             } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroCancelado)) {
                 return primeiroAcessoCancelado(alunoDAO, alunoEncontrado, message);
-            } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidadeCancelado)) {
-                return pedirUniversidade(alunoEncontrado, message);
-            } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidade) || Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidadeRespostaNegativa)) {
+            } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidade) || Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidadeRespostaNegativa) || Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidadeCancelado)) {
                 return cadastrarUniversidade(alunoEncontrado, message);
             } else if (Str.equals(progresso.nomeProgresso, Progresso.cadastroUniversidadeResposta)) {
                 if (MessageManager.checkAnswer(message)) {
@@ -208,7 +206,7 @@ public class CadastroIntent extends Intent {
         alunoDAO.cancelarUniversidade();
 
         MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
-        MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.cadastroUniversidadeCancelado);
+        MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.cadastroCancelado);
 
         Progresso progresso = (new ProgressoDAO()).pegarProgresso(Progresso.cadastroUniversidadeCancelado);
         Pesquisa pesquisa = new Pesquisa(progresso.id, aluno.id, message);

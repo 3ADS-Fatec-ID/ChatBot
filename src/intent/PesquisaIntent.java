@@ -28,7 +28,7 @@ public class PesquisaIntent extends Intent {
         Aluno alunoEncontrado = alunoDAO.encontrarAluno();
         
         try {
-            return new IntentDTO(MessageManager.extractKeywords(message).toString(), alunoEncontrado.idTelegram);
+            return new IntentDTO(String.join(", ", MessageManager.extractKeywords(message)), alunoEncontrado.idTelegram);
         } catch (IOException ex) {
             System.err.println(ex.toString());
             return new IntentDTO(ex.toString(), alunoEncontrado.idTelegram);

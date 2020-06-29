@@ -30,7 +30,7 @@ public class MessageManager {
         return positivas.stream().anyMatch(mensagemDominio -> (mensagemDominio.corpoMensagemDominio.equals(text.toLowerCase())));
     }
 
-    public static Result extractKeywords(String text) throws IOException {
+    public static String[] extractKeywords(String text) throws IOException {
         // Create an object to hold algorithm parameters
         String[] stopWords = new SmartWords().getSmartWords();
         String[] stopPOS = {"VB", "VBD", "VBG", "VBN", "VBP", "VBZ"};
@@ -49,7 +49,9 @@ public class MessageManager {
         String accentRemoved = normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
         Result result = rakeAlg.rake(accentRemoved);
 
-        return result.distinct();
+        String[] preparedKeywords = result.getFullKeywords();
+        String whitespacedKeywords = String.join(" ", preparedKeywords);
+        return whitespacedKeywords.split(" ");
     }
 
 }

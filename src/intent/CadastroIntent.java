@@ -50,13 +50,10 @@ public class CadastroIntent extends Intent {
                 } else {
                     return cancelarCadastro(aluno);
                 }
-            } else if (Str.equals(progresso.nomeProcesso, Progresso.cadastroCancelado)) {
-                return primeiroAcesso(alunoDAO, aluno, message);
             }
-        } else {
-            return primeiroAcesso(alunoDAO, aluno, message);
-
         }
+        
+        return primeiroAcesso(alunoDAO, aluno, message);
     }
 
     private IntentDTO primeiroAcesso(AlunoDAO alunoDAO, Aluno aluno, String message) {

@@ -2,7 +2,7 @@ package model;
 
 public class Universidade {
 
-    public int id;
+    public int id, idEndereco;
     public String nomeUniversidade, descricaoUniversidade;
     public Endereco endereco;
 
@@ -14,6 +14,13 @@ public class Universidade {
         this.nomeUniversidade = nomeUniversidade;
         this.descricaoUniversidade = descricaoUniversidade;
         this.endereco = endereco;
+    }
+
+    public Universidade(int id, int idEndereco, String nomeUniversidade, String descricaoUniversidade) {
+        this.id = id;
+        this.idEndereco = idEndereco;
+        this.nomeUniversidade = nomeUniversidade;
+        this.descricaoUniversidade = descricaoUniversidade;
     }
 
     @Override

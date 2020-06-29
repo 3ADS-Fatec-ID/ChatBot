@@ -69,7 +69,7 @@ public class ProgressoDAO extends DAO {
         } else {
             ProgressoDAO progressoDAO = new ProgressoDAO();
             Progresso progresso = progressoDAO.pegarProgresso(pesquisa.idProgresso);
-            System.out.println("Progresso está em: " + progresso.nomeProcesso);
+            System.out.println("Progresso está em: " + progresso.nomeProgresso);
             return progresso;
         }
 

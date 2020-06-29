@@ -37,6 +37,7 @@ public class UniversidadeDAO extends DAO {
                     bd.rs.getString("descricaoUniversidade")
             );
         } catch (SQLException erro) {
+            System.out.println(erro.toString());
             return null;
         } finally {
             bd.close();

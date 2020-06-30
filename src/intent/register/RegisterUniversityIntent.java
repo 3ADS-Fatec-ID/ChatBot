@@ -48,7 +48,7 @@ public class RegisterUniversityIntent extends Intent {
             SearchDAO searchDAO = new SearchDAO(search);
             searchDAO.add();
         } else {
-            foundStudent.universityCourseId = foundUniversity.id;
+            foundStudent.universityId = foundUniversity.id;
             studentDAO.updateUniversity();
 
             DomainMessage domainMessage = domainMessageDAO.find(Progress.universityRegistrationResponse);

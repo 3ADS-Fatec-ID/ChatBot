@@ -43,12 +43,12 @@ public class UniversityRegistrationResponseIntent extends Intent {
         DomainMessage domainMessage = domainMessageDAO.find(Progress.courseRegistration);
 
         Progress progress = (new ProgressDAO()).find(Progress.courseRegistration);
-        Search search = new Search(progress.id, student.id, message);
+        Search search = new Search(progress.id, foundStudent.id, message);
         SearchDAO searchDAO = new SearchDAO(search);
         searchDAO.add();
 
         String response = domainMessage.body;
-        return new IntentDTO(response, student.telegramId);
+        return new IntentDTO(response, foundStudent.telegramId);
     }
 
     /**

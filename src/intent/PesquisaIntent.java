@@ -69,7 +69,7 @@ public class PesquisaIntent extends Intent {
 
                     }
 
-                    return new IntentDTO(String.join("\n", (String[]) finalMessage.toArray()), alunoEncontrado.idTelegram);
+                    return new IntentDTO(String.join("\n", finalMessage.toArray(String[]::new)), alunoEncontrado.idTelegram);
                 } else {
                     return new IntentDTO("Nenhum resultado foi encontrado, tente novamente!", alunoEncontrado.idTelegram);
 

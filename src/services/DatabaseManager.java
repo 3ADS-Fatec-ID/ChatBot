@@ -6,34 +6,42 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class BD {
+public class DatabaseManager {
 
-    //interfaces
     public Connection con = null;
     public PreparedStatement st = null;
     public ResultSet rs = null;
 
+    /**
+     * Driver package
+     */
     private final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private final String BANCO = "BOT";
-    private final String URL = "jdbc:sqlserver://localhost:1433;databasename=" + BANCO + ";integratedSecurity=true";
+    /**
+     * The name of the database
+     */
+    private final String DATABASE = "BOT";
+    /**
+     * 1433 is the default SQL Server port 
+     */
+    private final String URL = "jdbc:sqlserver://localhost:1433;databasename=" + DATABASE + ";integratedSecurity=true";
 
     /**
-     * Realiza a conexão ao banco de dados
+     * Open the connection to the database
      *
-     * @return - true em caso de sucesso, ou false caso contrário
+     * @return
      */
     public boolean getConnection() {
         try {
             Class.forName(DRIVER);
             con = DriverManager.getConnection(URL);
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.println( e.toString());
+            System.err.println(e.toString());
         }
         return true;
     }
 
     /**
-     * Encerra a conexão (con, st, rs)
+     * Close the connection.
      */
     public void close() {
         try {

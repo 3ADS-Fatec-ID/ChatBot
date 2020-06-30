@@ -6,7 +6,7 @@
 package dao;
 
 import java.sql.Timestamp;
-import services.BD;
+import services.DatabaseManager;
 
 /**
  *
@@ -21,9 +21,9 @@ public class DAO {
 
     }
 
-    protected BD bd;
+    protected DatabaseManager bd;
 
     public DAO() {
-        this.bd = new BD();
+        this.bd = new DatabaseManager();
     }
 }

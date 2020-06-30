@@ -23,12 +23,12 @@ public class DuvidaDAO extends DAO {
         this.duvida = duvida;
     }
 
-    public Duvida pesquisarDuvida() {
+    public Duvida pesquisarDuvida(int id) {
         String sql = "SELECT * FROM Duvida WHERE id = ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, duvida.id);
+            bd.st.setInt(1, id);
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
 

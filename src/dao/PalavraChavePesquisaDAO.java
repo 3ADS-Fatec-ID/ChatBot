@@ -40,7 +40,6 @@ public class PalavraChavePesquisaDAO extends DAO {
             bd.st.setString(1, '%' + palavraChave + '%');
             bd.st.setInt(2, aluno.id);
             bd.rs = bd.st.executeQuery();
-            bd.rs.next();
 
             while (bd.rs.next()) {
                 palavras.add(

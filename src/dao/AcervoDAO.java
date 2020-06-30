@@ -23,12 +23,12 @@ public class AcervoDAO extends DAO {
         this.acervo = acervo;
     }
 
-    public Acervo pesquisarAcervo() {
+    public Acervo pesquisarAcervo(int id) {
         String sql = "SELECT * FROM Acervo WHERE id = ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, acervo.id);
+            bd.st.setInt(1, id);
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
 

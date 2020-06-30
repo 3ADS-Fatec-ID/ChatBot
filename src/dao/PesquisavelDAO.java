@@ -23,12 +23,12 @@ public class PesquisavelDAO extends DAO {
         this.pesquisavel = pesquisavel;
     }
 
-    public Pesquisavel pesquisarPesquisavel() {
+    public Pesquisavel pesquisarPesquisavel(int id) {
         String sql = "SELECT * FROM Pesquisavel WHERE id = ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, pesquisavel.id);
+            bd.st.setInt(1, id);
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
 

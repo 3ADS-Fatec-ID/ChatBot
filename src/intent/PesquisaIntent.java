@@ -103,7 +103,6 @@ public class PesquisaIntent extends Intent {
          */
 
         AlunoDAO alunoDAO = new AlunoDAO(aluno);
-        alunoDAO.cancelarCurso();
 
         MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
         MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.pesquisaNegativaResposta);

@@ -4,16 +4,8 @@ public class Universidade {
 
     public int id, idEndereco;
     public String nomeUniversidade, descricaoUniversidade;
-    public Endereco endereco;
 
     public Universidade() {
-    }
-
-    public Universidade(int id, String nomeUniversidade, String descricaoUniversidade, Endereco endereco) {
-        this.id = id;
-        this.nomeUniversidade = nomeUniversidade;
-        this.descricaoUniversidade = descricaoUniversidade;
-        this.endereco = endereco;
     }
 
     public Universidade(int id, int idEndereco, String nomeUniversidade, String descricaoUniversidade) {
@@ -25,6 +17,6 @@ public class Universidade {
 
     @Override
     public String toString() {
-        return "Universidade{" + "id=" + id + ", nomeUniversidade=" + nomeUniversidade + ", descricaoUniversidade=" + descricaoUniversidade + ", endereco=" + endereco + '}';
+        return "Universidade{" + "id=" + id + ", idEndereco=" + idEndereco + ", nomeUniversidade=" + nomeUniversidade + ", descricaoUniversidade=" + descricaoUniversidade + '}';
     }
 }

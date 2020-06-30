@@ -8,8 +8,6 @@ package dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Aluno;
-import model.Curso;
-import model.PalavraChave;
 import model.PalavraChavePesquisa;
 
 /**

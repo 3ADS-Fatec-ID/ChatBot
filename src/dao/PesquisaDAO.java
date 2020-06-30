@@ -5,7 +5,6 @@
  */
 package dao;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import model.Pesquisa;
 
@@ -19,6 +18,9 @@ public class PesquisaDAO extends DAO {
 
     public PesquisaDAO(Pesquisa pesquisa) {
         this.pesquisa = pesquisa;
+    }
+
+    public PesquisaDAO() {
     }
 
     public boolean criarPesquisa() {

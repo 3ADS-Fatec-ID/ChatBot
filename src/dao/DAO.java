@@ -14,17 +14,16 @@ import services.BD;
  */
 public class DAO {
 
-	public static Timestamp getCurrentTimeStamp() {
+    public static Timestamp getCurrentTimeStamp() {
 
-		java.util.Date today = new java.util.Date();
-		return new Timestamp(today.getTime());
+        java.util.Date today = new java.util.Date();
+        return new Timestamp(today.getTime());
 
-	}
+    }
 
     protected BD bd;
 
     public DAO() {
         this.bd = new BD();
     }
-
 }

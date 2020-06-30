@@ -50,7 +50,7 @@ public class PesquisaIntent extends Intent {
                 String[] finalMessage;
 
                 if (palavraChavePesquisasDistinct.length > 0) {
-                    int index = 0;
+                    int index = 1;
                     finalMessage = new String[palavraChavePesquisasDistinct.length + 1];
                     finalMessage[0] = ("Os resultados encontrados foram:");
 

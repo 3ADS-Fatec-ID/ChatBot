@@ -25,6 +25,7 @@ import model.Pesquisa;
 import model.Pesquisavel;
 import model.Progresso;
 import services.MessageManager;
+import services.Predicates;
 
 /**
  *
@@ -53,7 +54,10 @@ public class PesquisaIntent extends Intent {
                     palavraChavePesquisas.addAll(palavraChavePesquisaDAO.listarPalavraChavePesquisas(keyword, alunoEncontrado));
                 }
 
-                PalavraChavePesquisa[] palavraChavePesquisasDistinct = palavraChavePesquisas.stream().distinct().limit(5).toArray(PalavraChavePesquisa[]::new);
+                PalavraChavePesquisa[] palavraChavePesquisasDistinct;
+                palavraChavePesquisasDistinct = palavraChavePesquisas.stream()
+                        .filter(Predicates.distinctByKey(p -> p.idPesquisavel))
+                        .limit(5).toArray(PalavraChavePesquisa[]::new);
                 String[] finalMessage;
 
                 if (palavraChavePesquisasDistinct.length > 0) {
@@ -83,19 +87,16 @@ public class PesquisaIntent extends Intent {
                     }
 
                     return new IntentDTO(String.join("\n", finalMessage), alunoEncontrado.idTelegram);
-                } else {
-                    return pesquisaNaoEncontrada(alunoEncontrado, message);
                 }
-
-            } else {
-                return new IntentDTO("Não foi possível processar sua mensagem, tente novamente!", alunoEncontrado.idTelegram);
             }
+
+            return pesquisaNaoEncontrada(alunoEncontrado, message);
         } catch (IOException ex) {
             System.err.println(ex.toString());
             return new IntentDTO(ex.toString(), alunoEncontrado.idTelegram);
         }
     }
-    
+
     private IntentDTO pesquisaNaoEncontrada(Aluno aluno, String message) {
         /**
          * O pesquisa usuário não encontrada

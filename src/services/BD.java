@@ -15,7 +15,7 @@ public class BD {
 	
 	private final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; 
 	private final String BANCO = "BOT";
-	private final String URL = "jdbc:sqlserver://localhost:1433;databasename="+BANCO+";integratedSecurity=true&characterEncoding=utf-8";
+	private final String URL = "jdbc:sqlserver://localhost:1433;databasename="+BANCO+";integratedSecurity=true";
 	
 	/**
 	 * Realiza a conex�o ao banco de dados

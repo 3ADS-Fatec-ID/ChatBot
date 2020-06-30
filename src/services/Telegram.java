@@ -2,6 +2,7 @@ package services;
 
 import intent.MainIntent;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -30,6 +31,7 @@ public class Telegram extends TelegramLongPollingBot {
 
     public void sendMessage(String msg, Long chatId) {
         SendMessage message = new SendMessage();
+        message.setParseMode(ParseMode.MARKDOWN);
         message.setText(msg);
         message.setChatId(chatId);
 

@@ -26,6 +26,7 @@ public abstract class Intent {
         message = args[2];
         studentDAO = new StudentDAO(student);
         foundStudent = studentDAO.find();
+        studentDAO = new StudentDAO(foundStudent);
     }
 
     /**

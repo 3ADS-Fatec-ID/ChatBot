@@ -47,10 +47,12 @@ public class PesquisaIntent extends Intent {
                 }
 
                 PalavraChavePesquisa[] palavraChavePesquisasDistinct = palavraChavePesquisas.stream().distinct().limit(5).toArray(PalavraChavePesquisa[]::new);
-                ArrayList<String> finalMessage = new ArrayList<>();
+                String[] finalMessage;
 
                 if (palavraChavePesquisasDistinct.length > 0) {
-                    finalMessage.add("Os resultados encontrados foram:");
+                    int index = 0;
+                    finalMessage = new String[palavraChavePesquisasDistinct.length + 1];
+                    finalMessage[0] = ("Os resultados encontrados foram:");
 
                     for (PalavraChavePesquisa palavraChavePesquisa : palavraChavePesquisasDistinct) {
                         PesquisavelDAO pesquisavelDAO = new PesquisavelDAO();
@@ -59,17 +61,21 @@ public class PesquisaIntent extends Intent {
                         if (pesquisavel.idAcervo != 0) {
                             AcervoDAO acervoDAO = new AcervoDAO();
                             Acervo acervo = acervoDAO.pesquisarAcervo(pesquisavel.idAcervo);
+                            String tema = "Tema: " + acervo.tema;
+                            String autor = "Autor: " + acervo.autor;
+                            String orientador = "Orientador: " + acervo.orientador;
+                            finalMessage[index] = "\n" + tema + "\n" + autor + "\n" + orientador;
                         } else {
                             DuvidaDAO duvidaDAO = new DuvidaDAO();
                             Duvida duvida = duvidaDAO.pesquisarDuvida(pesquisavel.idDuvida);
                             String titulo = "Dúvida: " + duvida.nomeDuvida;
                             String corpo = "Resposta: " + duvida.descricaoDuvida;
-                            finalMessage.add("\n" + titulo + "\n" + corpo);
+                            finalMessage[index] = "\n" + titulo + "\n" + corpo;
                         }
-
+                        index++;
                     }
 
-                    return new IntentDTO(String.join("\n", finalMessage.toArray(String[]::new)), alunoEncontrado.idTelegram);
+                    return new IntentDTO(String.join("\n", finalMessage), alunoEncontrado.idTelegram);
                 } else {
                     return new IntentDTO("Nenhum resultado foi encontrado, tente novamente!", alunoEncontrado.idTelegram);
 

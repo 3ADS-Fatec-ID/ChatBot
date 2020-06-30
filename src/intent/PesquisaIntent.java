@@ -47,7 +47,7 @@ public class PesquisaIntent extends Intent {
                 }
 
                 String finalMessage = "Os resultados encontrados foram:\n";
-                PalavraChavePesquisa[] palavraChavePesquisasDistinct = palavraChavePesquisas.stream().distinct().sorted().limit(5).toArray(PalavraChavePesquisa[]::new);
+                PalavraChavePesquisa[] palavraChavePesquisasDistinct = palavraChavePesquisas.stream().distinct().limit(5).toArray(PalavraChavePesquisa[]::new);
 
                 if (palavraChavePesquisasDistinct.length > 0) {
                     for (PalavraChavePesquisa palavraChavePesquisa : palavraChavePesquisasDistinct) {

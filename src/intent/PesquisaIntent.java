@@ -70,7 +70,7 @@ public class PesquisaIntent extends Intent {
                             Duvida duvida = duvidaDAO.pesquisarDuvida(pesquisavel.idDuvida);
                             String titulo = "Dúvida: " + duvida.nomeDuvida;
                             String corpo = "Resposta: " + duvida.descricaoDuvida;
-                            finalMessage[index] = "\n" + titulo + "\n" + corpo.replace(".", "\n");
+                            finalMessage[index] = "\n" + titulo + "\n" + corpo.replace(". ", ".\n").replace(": ", ":\n");
                         }
                         index++;
                     }

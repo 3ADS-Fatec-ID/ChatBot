@@ -23,12 +23,12 @@ public class PalavraChaveDAO extends DAO {
         this.palavraChave = palavraChave;
     }
 
-    public PalavraChave pesquisarPalavraChave(String palavraChave) {
-        String sql = "SELECT * FROM Palavra_Chave WHERE nomePalavraChave LIKE ?";
+    public PalavraChave pesquisarPalavraChave(int palavraChave) {
+        String sql = "SELECT * FROM Palavra_Chave WHERE id LIKE ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setString(1, '%' + palavraChave + '%');
+            bd.st.setInt(1, palavraChave);
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
             return new PalavraChave(bd.rs.getInt("id"), bd.rs.getString("nomePalavraChave"));

@@ -6,10 +6,12 @@
 package intent;
 
 import dao.AlunoDAO;
+import dao.PalavraChaveDAO;
 import dao.PalavraChavePesquisaDAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import model.Aluno;
+import model.PalavraChave;
 import model.PalavraChavePesquisa;
 import services.MessageManager;
 
@@ -35,12 +37,16 @@ public class PesquisaIntent extends Intent {
             ArrayList<PalavraChavePesquisa> palavraChavePesquisas = new ArrayList<>();
             if (keywords.length > 0) {
                 for (String keyword : keywords) {
+                    System.out.println(keyword);
                     PalavraChavePesquisaDAO palavraChavePesquisaDAO = new PalavraChavePesquisaDAO();
                     palavraChavePesquisas.addAll(palavraChavePesquisaDAO.listarPalavraChavePesquisas(keyword, alunoEncontrado));
                 }
                 PalavraChavePesquisa[] palavraChavePesquisasDistinct = palavraChavePesquisas.stream().distinct().toArray(PalavraChavePesquisa[]::new);
                 for (PalavraChavePesquisa palavraChavePesquisa : palavraChavePesquisasDistinct) {
                     System.out.println(palavraChavePesquisa.toString());
+                    PalavraChaveDAO palavraChaveDAO = new PalavraChaveDAO();
+                    PalavraChave palavraChave = palavraChaveDAO.pesquisarPalavraChave(palavraChavePesquisa.idPalavraChave);
+                    System.out.println(palavraChave.nomePalavraChave);
                 }
                 return new IntentDTO("Parabéns", alunoEncontrado.idTelegram);
             } else {

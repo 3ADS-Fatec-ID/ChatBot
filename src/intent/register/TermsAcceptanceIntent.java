@@ -42,7 +42,7 @@ public class TermsAcceptanceIntent extends Intent {
      * @return
      */
     private IntentDTO registerTerms() {
-        student.termAccepted = true;
+        foundStudent.termAccepted = true;
         studentDAO.acceptTerms();
 
         DomainMessageDAO domainMessageDAO = new DomainMessageDAO();

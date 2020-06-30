@@ -8,7 +8,6 @@ package intent;
 import dao.AcervoDAO;
 import dao.AlunoDAO;
 import dao.DuvidaDAO;
-import dao.PalavraChaveDAO;
 import dao.PalavraChavePesquisaDAO;
 import dao.PesquisavelDAO;
 import java.io.IOException;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import model.Acervo;
 import model.Aluno;
 import model.Duvida;
-import model.PalavraChave;
 import model.PalavraChavePesquisa;
 import model.Pesquisavel;
 import services.MessageManager;
@@ -47,24 +45,27 @@ public class PesquisaIntent extends Intent {
                     PalavraChavePesquisaDAO palavraChavePesquisaDAO = new PalavraChavePesquisaDAO();
                     palavraChavePesquisas.addAll(palavraChavePesquisaDAO.listarPalavraChavePesquisas(keyword, alunoEncontrado));
                 }
-                PalavraChavePesquisa[] palavraChavePesquisasDistinct = palavraChavePesquisas.stream().distinct().toArray(PalavraChavePesquisa[]::new);
+                
+                String finalMessage = "Os resultados encontrados foram:\n";
+                PalavraChavePesquisa[] palavraChavePesquisasDistinct = palavraChavePesquisas.stream().distinct().sorted().limit(5).toArray(PalavraChavePesquisa[]::new);
                 for (PalavraChavePesquisa palavraChavePesquisa : palavraChavePesquisasDistinct) {
                     PesquisavelDAO pesquisavelDAO = new PesquisavelDAO();
                     Pesquisavel pesquisavel = pesquisavelDAO.pesquisarPesquisavel(palavraChavePesquisa.idPesquisavel);
 
                     if (pesquisavel.idAcervo != 0) {
-                        // Estamos num acervo
                         AcervoDAO acervoDAO = new AcervoDAO();
                         Acervo acervo = acervoDAO.pesquisarAcervo(pesquisavel.idAcervo);
-                        System.out.println(acervo.toString());
+                        finalMessage += "";
                     } else {
                         DuvidaDAO duvidaDAO = new DuvidaDAO();
                         Duvida duvida = duvidaDAO.pesquisarDuvida(pesquisavel.idDuvida);
-                        System.out.println(duvida.toString());
+                        String titulo = "Dúvida: " + duvida.nomeDuvida;
+                        String corpo = "Resposta: " + duvida.descricaoDuvida;
+                        finalMessage += titulo + "\n" + corpo + "\n";
                     }
 
                 }
-                return new IntentDTO("Parabéns", alunoEncontrado.idTelegram);
+                return new IntentDTO(finalMessage, alunoEncontrado.idTelegram);
             } else {
                 return new IntentDTO("Não foi possível processar sua mensagem, tente novamente!", alunoEncontrado.idTelegram);
             }

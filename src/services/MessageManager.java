@@ -53,5 +53,4 @@ public class MessageManager {
         String whitespacedKeywords = String.join(" ", preparedKeywords);
         return whitespacedKeywords.split(" ");
     }
-
 }

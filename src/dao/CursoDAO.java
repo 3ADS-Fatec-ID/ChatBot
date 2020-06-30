@@ -45,4 +45,25 @@ public class CursoDAO extends DAO {
             bd.close();
         }
     }
+
+    public Curso pegarCursoPeloIdCursoUniversidade() {
+        String sql = "SELECT c.id as id, c.siglaCurso, c.nomeCurso ,c_u.id as Id_Curso_Universidade FROM Curso c, Curso_Universidade c_u WHERE c.id = c_u.id_curso AND c.id = c_u.id_curso AND c_u.id = ?";
+        bd.getConnection();
+        try {
+            bd.st = bd.con.prepareStatement(sql);
+            bd.st.setInt(1, curso.idCursoUniversidade);
+
+            bd.rs = bd.st.executeQuery();
+            bd.rs.next();
+            return new Curso(bd.rs.getInt("id"),
+                    bd.rs.getString("siglaCurso"),
+                    bd.rs.getString("nomeCurso"),
+                    bd.rs.getInt("Id_Curso_Universidade"));
+        } catch (SQLException erro) {
+            System.out.println(erro.toString());
+            return null;
+        } finally {
+            bd.close();
+        }
+    }
 }

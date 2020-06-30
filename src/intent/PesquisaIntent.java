@@ -38,7 +38,7 @@ public class PesquisaIntent extends Intent {
                     PalavraChavePesquisaDAO palavraChavePesquisaDAO = new PalavraChavePesquisaDAO();
                     palavraChavePesquisas.addAll(palavraChavePesquisaDAO.listarPalavraChavePesquisas(keyword, alunoEncontrado));
                 }
-                PalavraChavePesquisa[] palavraChavePesquisasDistinct = (PalavraChavePesquisa[])palavraChavePesquisas.stream().distinct().toArray();
+                PalavraChavePesquisa[] palavraChavePesquisasDistinct = palavraChavePesquisas.stream().distinct().toArray(PalavraChavePesquisa[]::new);
                 for (PalavraChavePesquisa palavraChavePesquisa : palavraChavePesquisasDistinct) {
                     System.out.println(palavraChavePesquisa.toString());
                 }

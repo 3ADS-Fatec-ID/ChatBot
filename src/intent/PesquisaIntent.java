@@ -41,7 +41,7 @@ public class PesquisaIntent extends Intent {
         try {
             String[] keywords = MessageManager.extractKeywords(message);
             ArrayList<PalavraChavePesquisa> palavraChavePesquisas = new ArrayList<>();
-            if (keywords.length > 0 || "".equals(keywords[0])) {
+            if (keywords.length > 0 && !"".equals(keywords[0])) {
                 for (String keyword : keywords) {
                     System.out.println(keyword);
                     PalavraChavePesquisaDAO palavraChavePesquisaDAO = new PalavraChavePesquisaDAO();

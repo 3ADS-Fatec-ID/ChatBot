@@ -72,15 +72,15 @@ public class PesquisaIntent extends Intent {
                         if (pesquisavel.idAcervo != 0) {
                             AcervoDAO acervoDAO = new AcervoDAO();
                             Acervo acervo = acervoDAO.pesquisarAcervo(pesquisavel.idAcervo);
-                            String tema = "**Tema:** " + acervo.tema;
-                            String autor = "**Autor:** " + acervo.autor;
-                            String orientador = "**Orientador:** " + acervo.orientador;
+                            String tema = "Tema: " + acervo.tema;
+                            String autor = "Autor: " + acervo.autor;
+                            String orientador = "Orientador: " + acervo.orientador;
                             finalMessage[index] = "\n" + tema + "\n" + autor + "\n" + orientador;
                         } else {
                             DuvidaDAO duvidaDAO = new DuvidaDAO();
                             Duvida duvida = duvidaDAO.pesquisarDuvida(pesquisavel.idDuvida);
-                            String titulo = "**Dúvida:** " + duvida.nomeDuvida;
-                            String corpo = "**Resposta:** " + duvida.descricaoDuvida;
+                            String titulo = "Dúvida: " + duvida.nomeDuvida;
+                            String corpo = "Resposta: " + duvida.descricaoDuvida;
                             finalMessage[index] = "\n" + titulo + "\n" + corpo
                                     .replace(". ", ".\n")
                                     .replace(": ", ":\n");

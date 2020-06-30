@@ -12,18 +12,18 @@ import model.Question;
  *
  * @author joao
  */
-public class DuvidaDAO extends DAO {
+public class QuestionDAO extends DAO {
 
-    private Question duvida;
+    private Question question;
 
-    public DuvidaDAO() {
+    public QuestionDAO() {
     }
 
-    public DuvidaDAO(Question duvida) {
-        this.duvida = duvida;
+    public QuestionDAO(Question question) {
+        this.question = question;
     }
 
-    public Question pesquisarDuvida(int id) {
+    public Question find(int id) {
         String sql = "SELECT * FROM Duvida WHERE id = ?";
         bd.getConnection();
         try {
@@ -35,8 +35,8 @@ public class DuvidaDAO extends DAO {
             return new Question(bd.rs.getInt("id"),
                     bd.rs.getString("nomeDuvida"),
                     bd.rs.getString("descricaoDuvida"));
-        } catch (SQLException erro) {
-            System.err.println(erro.toString());
+        } catch (SQLException e) {
+            System.err.println(e.toString());
             return null;
         } finally {
             bd.close();

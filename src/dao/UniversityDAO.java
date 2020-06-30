@@ -12,32 +12,34 @@ import model.University;
  *
  * @author joao
  */
-public class UniversidadeDAO extends DAO {
+public class UniversityDAO extends DAO {
 
-    private University universidade;
+    private University university;
 
-    public UniversidadeDAO() {
+    public UniversityDAO() {
     }
 
-    public UniversidadeDAO(University universidade) {
-        this.universidade = universidade;
+    public UniversityDAO(University university) {
+        this.university = university;
     }
 
-    public University pegarUniversidade() {
+    public University find() {
         String sql = "select * from Universidade where nomeUniversidade like ?";
         bd.getConnection();
+
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setString(1, "%" + universidade.name + "%");
+            bd.st.setString(1, "%" + university.name + "%");
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
+
             return new University(bd.rs.getInt("id"),
                     bd.rs.getInt("id_endereco"),
                     bd.rs.getString("nomeUniversidade"),
                     bd.rs.getString("descricaoUniversidade")
             );
-        } catch (SQLException erro) {
-            System.out.println(erro.toString());
+        } catch (SQLException e) {
+            System.err.println(e.toString());
             return null;
         } finally {
             bd.close();

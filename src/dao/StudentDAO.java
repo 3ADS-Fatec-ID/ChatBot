@@ -1,121 +1,128 @@
 package dao;
 
 import java.sql.SQLException;
-import java.sql.Date;
 import model.Student;
 
-public class AlunoDAO extends DAO {
+public class StudentDAO extends DAO {
 
-    private final Student aluno;
+    private final Student student;
 
-    public AlunoDAO(Student aluno) {
-        this.aluno = aluno;
+    public StudentDAO(Student student) {
+        this.student = student;
     }
 
-    public boolean cadastrar() {
+    public boolean add() {
         String sql = "insert into Usuario (nomeUsuario, id_telegram,criado_em, editado_em) values (?,?,?,?)";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setString(1, aluno.name);
-            bd.st.setLong(2, aluno.telegramId);
+            bd.st.setString(1, student.name);
+            bd.st.setLong(2, student.telegramId);
             bd.st.setTimestamp(3, getCurrentTimeStamp());
             bd.st.setTimestamp(4, getCurrentTimeStamp());
             bd.st.executeUpdate();
-            System.out.println("Cadastro OK!");
+            
             return true;
-        } catch (SQLException erro) {
-            System.out.println(erro);
+        } catch (SQLException e) {
+            System.err.println(e);
             return false;
         } finally {
             bd.close();
         }
     }
 
-    public boolean alterarCurso() {
+    public boolean updateCourse() {
         String sql = "update Usuario set id_curso_universidade = ? where id = ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, aluno.universityCourseId);
-            bd.st.setInt(2, aluno.id);
-            int n = bd.st.executeUpdate();
-            return n == 1;
-        } catch (SQLException erro) {
+            bd.st.setInt(1, student.universityCourseId);
+            bd.st.setInt(2, student.id);
+            bd.st.executeUpdate();
+            
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e.toString());
             return false;
         } finally {
             bd.close();
         }
     }
 
-    public boolean alterarUniversidade() {
+    public boolean updateUniversity() {
         String sql = "update Usuario set id_Universidade = ? where id = ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, aluno.universityId);
-            bd.st.setInt(2, aluno.id);
-            int n = bd.st.executeUpdate();
-            return n == 1;
-        } catch (SQLException erro) {
+            bd.st.setInt(1, student.universityId);
+            bd.st.setInt(2, student.id);
+            bd.st.executeUpdate();
+            
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e.toString());
             return false;
         } finally {
             bd.close();
         }
     }
 
-    public boolean alterarTermoAceite() {
+    public boolean acceptTerms() {
         String sql = "update Usuario set termoAceite = ? where id = ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setBoolean(1, aluno.termAccepted);
-            bd.st.setInt(2, aluno.id);
-            int n = bd.st.executeUpdate();
-            return n == 1;
-        } catch (SQLException erro) {
+            bd.st.setBoolean(1, student.termAccepted);
+            bd.st.setInt(2, student.id);
+            bd.st.executeUpdate();
+            
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e.toString());
             return false;
         } finally {
             bd.close();
         }
     }
 
-    public boolean excluir() {
+    public boolean delete() {
         String sql = "delete from Usuario where id = ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, aluno.id);
+            bd.st.setInt(1, student.id);
             int n = bd.st.executeUpdate();
             return n == 1;
-        } catch (SQLException erro) {
+        } catch (SQLException e) {
+            System.err.println(e.toString());
             return false;
         } finally {
             bd.close();
         }
     }
 
-    public boolean verificarCadastro() {
+    public boolean exists() {
         String sql = "select * from Usuario where id_telegram = ? AND termoAceite = 1";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setLong(1, aluno.telegramId);
+            bd.st.setLong(1, student.telegramId);
             bd.rs = bd.st.executeQuery();
             return bd.rs.next();
-        } catch (SQLException erro) {
+        } catch (SQLException e) {
+            System.err.println(e.toString());
             return false;
         } finally {
             bd.close();
         }
     }
 
-    public Student encontrarAluno() {
+    public Student find() {
         String sql = "select * from Usuario where id_telegram = ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setLong(1, aluno.telegramId);
+            bd.st.setLong(1, student.telegramId);
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
             return new Student(bd.rs.getInt("id"),
@@ -124,36 +131,37 @@ public class AlunoDAO extends DAO {
                     bd.rs.getBoolean("termoAceite"),
                     bd.rs.getString("nomeUsuario"),
                     bd.rs.getInt("id_Universidade"));
-        } catch (SQLException erro) {
+        } catch (SQLException e) {
+            System.err.println(e.toString());
             return null;
         } finally {
             bd.close();
         }
     }
 
-    public void cancelarUniversidade() {
+    public void deleteUniversity() {
         String sql = "update Usuario set id_Universidade = NULL where id = ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, aluno.id);
+            bd.st.setInt(1, student.id);
             bd.st.executeUpdate();
-        } catch (SQLException erro) {
-            System.out.println(erro.toString());
+        } catch (SQLException e) {
+            System.err.println(e.toString());
         } finally {
             bd.close();
         }
     }
     
-    public void cancelarCurso() {
+    public void deleteCourse() {
         String sql = "update Usuario set id_curso_universidade = NULL where id = ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, aluno.id);
+            bd.st.setInt(1, student.id);
             bd.st.executeUpdate();
-        } catch (SQLException erro) {
-            System.out.println(erro.toString());
+        } catch (SQLException e) {
+            System.err.println(e.toString());
         } finally {
             bd.close();
         }

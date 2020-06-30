@@ -6,7 +6,7 @@
 package intent;
 
 /**
- *
+ * DTO for the intent response.
  * @author joao
  */
 public class IntentDTO {
@@ -14,15 +14,28 @@ public class IntentDTO {
     String message;
     Long idTelegram;
 
+    /**
+     * Constrctor
+     * @param message
+     * @param idTelegram 
+     */
     public IntentDTO(String message, Long idTelegram) {
         this.message = message;
         this.idTelegram = idTelegram;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public Long getIdTelegram() {
         return idTelegram;
     }

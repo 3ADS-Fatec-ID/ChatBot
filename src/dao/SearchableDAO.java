@@ -6,36 +6,36 @@
 package dao;
 
 import java.sql.SQLException;
-import model.Collection;
+import model.Searchable;
 
 /**
  *
  * @author joao
  */
-public class AcervoDAO extends DAO {
+public class SearchableDAO extends DAO {
 
-    private Collection acervo;
+    private Searchable searchable;
 
-    public AcervoDAO() {
+    public SearchableDAO() {
     }
 
-    public AcervoDAO(Collection acervo) {
-        this.acervo = acervo;
+    public SearchableDAO(Searchable searchable) {
+        this.searchable = searchable;
     }
 
-    public Collection pesquisarAcervo(int id) {
-        String sql = "SELECT * FROM Acervo WHERE id = ?";
+    public Searchable find(int id) {
+        String sql = "SELECT * FROM Pesquisavel WHERE id = ?";
         bd.getConnection();
+
         try {
             bd.st = bd.con.prepareStatement(sql);
             bd.st.setInt(1, id);
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
 
-            return new Collection(bd.rs.getInt("id"),
-                    bd.rs.getString("autor"),
-                    bd.rs.getString("tema"),
-                    bd.rs.getString("orientador"));
+            return new Searchable(bd.rs.getInt("id"),
+                    bd.rs.getInt("id_Acervo"),
+                    bd.rs.getInt("id_Duvida"));
         } catch (SQLException erro) {
             System.err.println(erro.toString());
             return null;

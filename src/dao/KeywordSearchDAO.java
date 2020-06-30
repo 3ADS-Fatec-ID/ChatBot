@@ -14,41 +14,42 @@ import model.KeywordSearch;
  *
  * @author joao
  */
-public class PalavraChavePesquisaDAO extends DAO {
+public class KeywordSearchDAO extends DAO {
 
-    private KeywordSearch palavraChavePesquisa;
+    private KeywordSearch keywordSearch;
 
-    public PalavraChavePesquisaDAO() {
+    public KeywordSearchDAO() {
     }
 
-    public PalavraChavePesquisaDAO(KeywordSearch palavraChavePesquisa) {
-        this.palavraChavePesquisa = palavraChavePesquisa;
+    public KeywordSearchDAO(KeywordSearch keywordSearch) {
+        this.keywordSearch = keywordSearch;
     }
 
-    public ArrayList<KeywordSearch> listarPalavraChavePesquisas(String palavraChave, Student aluno) {
+    public ArrayList<KeywordSearch> list(String keyword, Student student) {
         String sql = "SELECT pcp.* FROM Palavra_Chave AS pc\n"
                 + "    INNER JOIN Palavra_Chave_Pesquisa AS pcp ON pc.id = pcp.id_Palavra_Chave\n"
                 + "    INNER JOIN Curso_Universidade AS c ON c.id_curso = pcp.id_curso\n"
                 + "    INNER JOIN Usuario AS u ON u.id_curso_universidade = c.id\n"
                 + "    WHERE pc.nomePalavraChave like ? AND u.id = ?";
         bd.getConnection();
-        ArrayList<KeywordSearch> palavras = new ArrayList<>();
+        ArrayList<KeywordSearch> keywordSearches = new ArrayList<>();
+
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setString(1, '%' + palavraChave + '%');
-            bd.st.setInt(2, aluno.id);
+            bd.st.setString(1, '%' + keyword + '%');
+            bd.st.setInt(2, student.id);
             bd.rs = bd.st.executeQuery();
 
             while (bd.rs.next()) {
-                palavras.add(new KeywordSearch(
-                                bd.rs.getInt("id"),
-                                bd.rs.getInt("id_Palavra_Chave"),
-                                bd.rs.getInt("id_curso"),
-                                bd.rs.getInt("id_Pesquisavel"))
+                keywordSearches.add(new KeywordSearch(
+                        bd.rs.getInt("id"),
+                        bd.rs.getInt("id_Palavra_Chave"),
+                        bd.rs.getInt("id_curso"),
+                        bd.rs.getInt("id_Pesquisavel"))
                 );
             }
 
-            return palavras;
+            return keywordSearches;
         } catch (SQLException erro) {
             System.err.println(erro.toString());
             return null;

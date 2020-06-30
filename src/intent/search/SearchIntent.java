@@ -5,18 +5,16 @@
  */
 package intent.search;
 
-import dao.AcervoDAO;
-import dao.AlunoDAO;
-import dao.DuvidaDAO;
-import dao.MensagemDominioDAO;
-import dao.PalavraChavePesquisaDAO;
-import dao.PesquisaDAO;
-import dao.PesquisavelDAO;
-import dao.ProgressoDAO;
+import dao.CollectionDAO;
+import dao.QuestionDAO;
+import dao.DomainMessageDAO;
+import dao.KeywordSearchDAO;
+import dao.SearchDAO;
+import dao.SearchableDAO;
+import dao.ProgressDAO;
 import intent.Intent;
 import intent.IntentDTO;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import model.Collection;
 import model.Student;
@@ -37,85 +35,77 @@ public class SearchIntent extends Intent {
 
     @Override
     public IntentDTO run(String... args) {
-        Student aluno = new Student();
-        aluno.telegramId = Long.parseLong(args[0]);
-        aluno.name = args[1];
-        String message = args[2];
+        this.setup(args);
 
-        AlunoDAO alunoDAO = new AlunoDAO(aluno);
+        String[] keywords = MessageManager.extractKeywords(message);
+        ArrayList<KeywordSearch> KeywordSearches = new ArrayList<>();
 
-        Student alunoEncontrado = alunoDAO.encontrarAluno();
-
-        try {
-            String[] keywords = MessageManager.extractKeywords(message);
-            ArrayList<KeywordSearch> palavraChavePesquisas = new ArrayList<>();
-            if (keywords.length > 0 && !"".equals(keywords[0])) {
-                for (String keyword : keywords) {
-                    System.out.println(keyword);
-                    PalavraChavePesquisaDAO palavraChavePesquisaDAO = new PalavraChavePesquisaDAO();
-                    palavraChavePesquisas.addAll(palavraChavePesquisaDAO.listarPalavraChavePesquisas(keyword, alunoEncontrado));
-                }
-
-                KeywordSearch[] palavraChavePesquisasDistinct;
-                palavraChavePesquisasDistinct = palavraChavePesquisas.stream()
-                        .filter(Predicates.distinctByKey(p -> p.searchableId))
-                        .limit(5).toArray(KeywordSearch[]::new);
-                String[] finalMessage;
-
-                if (palavraChavePesquisasDistinct.length > 0) {
-                    int index = 1;
-                    finalMessage = new String[palavraChavePesquisasDistinct.length + 1];
-                    finalMessage[0] = "Os resultados encontrados foram:";
-
-                    for (KeywordSearch palavraChavePesquisa : palavraChavePesquisasDistinct) {
-                        PesquisavelDAO pesquisavelDAO = new PesquisavelDAO();
-                        Searchable pesquisavel = pesquisavelDAO.pesquisarPesquisavel(palavraChavePesquisa.searchableId);
-
-                        if (pesquisavel.collectionId != 0) {
-                            AcervoDAO acervoDAO = new AcervoDAO();
-                            Collection acervo = acervoDAO.pesquisarAcervo(pesquisavel.collectionId);
-                            String tema = "Tema: " + acervo.theme;
-                            String autor = "Autor: " + acervo.author;
-                            String orientador = "Orientador: " + acervo.advisor;
-                            finalMessage[index] = "\n" + tema + "\n" + autor + "\n" + orientador;
-                        } else {
-                            DuvidaDAO duvidaDAO = new DuvidaDAO();
-                            Question duvida = duvidaDAO.pesquisarDuvida(pesquisavel.questionId);
-                            String titulo = "Dúvida: " + duvida.name;
-                            String corpo = "Resposta: " + duvida.description;
-                            finalMessage[index] = "\n" + titulo + "\n" + corpo
-                                    .replace(". ", ".\n")
-                                    .replace(": ", ":\n");
-                        }
-                        index++;
-                    }
-
-                    return new IntentDTO(String.join("\n", finalMessage), alunoEncontrado.telegramId);
-                }
+        if (keywords.length > 0 && !"".equals(keywords[0])) {
+            for (String keyword : keywords) {
+                System.out.println(keyword);
+                KeywordSearchDAO keywordSearchDAO = new KeywordSearchDAO();
+                KeywordSearches.addAll(keywordSearchDAO.list(keyword, foundStudent));
             }
 
-            return pesquisaNaoEncontrada(alunoEncontrado, message);
-        } catch (IOException ex) {
-            System.err.println(ex.toString());
-            return new IntentDTO(ex.toString(), alunoEncontrado.telegramId);
+            KeywordSearch[] keywordSearchDistinct;
+            keywordSearchDistinct = KeywordSearches.stream()
+                    .filter(Predicates.distinctByKey(p -> p.searchableId))
+                    .limit(5).toArray(KeywordSearch[]::new);
+            String[] finalMessage;
+
+            if (keywordSearchDistinct.length > 0) {
+                int index = 1;
+                finalMessage = new String[keywordSearchDistinct.length + 1];
+                finalMessage[0] = "Os resultados encontrados foram:";
+
+                for (KeywordSearch keywordSearch : keywordSearchDistinct) {
+                    SearchableDAO searchableDAO = new SearchableDAO();
+                    Searchable searchable = searchableDAO.find(keywordSearch.searchableId);
+
+                    if (searchable.collectionId != 0) {
+                        CollectionDAO collectionDAO = new CollectionDAO();
+                        Collection collection = collectionDAO.find(searchable.collectionId);
+                        String theme = "Tema: " + collection.theme;
+                        String author = "Autor: " + collection.author;
+                        String advisor = "Orientador: " + collection.advisor;
+                        finalMessage[index] = "\n" + theme + "\n" + author + "\n" + advisor;
+                    } else {
+                        QuestionDAO questionDAO = new QuestionDAO();
+                        Question question = questionDAO.find(searchable.questionId);
+                        String name = "Dúvida: " + question.name;
+                        String description = "Resposta: " + question.description;
+                        finalMessage[index] = "\n" + name + "\n" + description
+                                .replace(". ", ".\n")
+                                .replace(": ", ":\n");
+                    }
+                    index++;
+                }
+
+                return new IntentDTO(String.join("\n", finalMessage), foundStudent.telegramId);
+            }
         }
+
+        return searchNotFound(foundStudent, message);
     }
 
-    private IntentDTO pesquisaNaoEncontrada(Student aluno, String message) {
-        /**
-         * O pesquisa usuário não encontrada
-         */
+    /**
+     * No results were found for the student's search
+     *
+     * @param aluno
+     * @param message
+     * @return
+     */
+    private IntentDTO searchNotFound(Student aluno, String message) {
+        DomainMessageDAO domainMessageDAO = new DomainMessageDAO();
+        DomainMessage domainMessage = domainMessageDAO.find(Progress.searchNotFound);
 
-        MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
-        DomainMessage mensagemDominio = mensagemDominioDAO.findMessage(Progress.searchNotFound);
+        Progress progress = (new ProgressDAO()).find(Progress.searchNotFound);
+        Search search = new Search(progress.id, aluno.id, message);
+        SearchDAO searchDAO = new SearchDAO(search);
+        searchDAO.add();
 
-        Progress progresso = (new ProgressoDAO()).pegarProgresso(Progress.searchNotFound);
-        Search pesquisa = new Search(progresso.id, aluno.id, message);
-        PesquisaDAO pesquisaDAO = new PesquisaDAO(pesquisa);
-        pesquisaDAO.criarPesquisa();
-
-        String msg = mensagemDominio.body;
-        return new IntentDTO(msg, aluno.telegramId);
+        String response = domainMessage.body;
+        return new IntentDTO(response, aluno.telegramId);
     }
 
 }

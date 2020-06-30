@@ -7,48 +7,41 @@ package intent.main;
 
 import intent.search.SearchIntent;
 import intent.register.RegisterIntent;
-import dao.AlunoDAO;
+import dao.StudentDAO;
 import intent.Intent;
 import intent.IntentDTO;
 import model.Student;
 
 /**
+ * The Main Intent, every message goes throught it.
  *
  * @author joao
  */
 public class MainIntent extends Intent {
 
     /**
-     * 0 - idTelegram 1 - nomeUsuario 2 - msgRec
-     *
      * @param args
      * @return
      */
     @Override
     public IntentDTO run(String... args) {
-        Student aluno = new Student();
-        
-        aluno.telegramId = Long.parseLong(args[0]);
-        aluno.name = args[1];
-        
-        AlunoDAO alunoDAO = new AlunoDAO(aluno);
-        String msgRec = args[2];
-        
-        System.out.println("Mensagem Recebida: " + msgRec + " - Nome: " + aluno.name + " - ChatId: " + aluno.telegramId);
-        
-        if (alunoDAO.verificarCadastro()) {
+        this.setup(args);
+
+        System.out.println("Mensagem Recebida: " + message + " - Nome: " + student.name + " - ChatId: " + student.telegramId);
+
+        if (studentDAO.exists()) {
             /**
-             * Aluno Casdastrado
+             * The Student is registered, handle the searching
              */
-           
+
             return (new SearchIntent()).run(args[0], args[1], args[2]);
         } else {
             /**
-             * Fazer cadastro do aluno
+             * The student needs to be registered
              */
-            
+
             return (new RegisterIntent()).run(args[0], args[1], args[2]);
         }
     }
-    
+
 }

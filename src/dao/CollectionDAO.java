@@ -6,25 +6,25 @@
 package dao;
 
 import java.sql.SQLException;
-import model.Searchable;
+import model.Collection;
 
 /**
  *
  * @author joao
  */
-public class PesquisavelDAO extends DAO {
+public class CollectionDAO extends DAO {
 
-    private Searchable pesquisavel;
+    private Collection collection;
 
-    public PesquisavelDAO() {
+    public CollectionDAO() {
     }
 
-    public PesquisavelDAO(Searchable pesquisavel) {
-        this.pesquisavel = pesquisavel;
+    public CollectionDAO(Collection collection) {
+        this.collection = collection;
     }
 
-    public Searchable pesquisarPesquisavel(int id) {
-        String sql = "SELECT * FROM Pesquisavel WHERE id = ?";
+    public Collection find(int id) {
+        String sql = "SELECT * FROM Acervo WHERE id = ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
@@ -32,9 +32,10 @@ public class PesquisavelDAO extends DAO {
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
 
-            return new Searchable(bd.rs.getInt("id"),
-                    bd.rs.getInt("id_Acervo"),
-                    bd.rs.getInt("id_Duvida"));
+            return new Collection(bd.rs.getInt("id"),
+                    bd.rs.getString("autor"),
+                    bd.rs.getString("tema"),
+                    bd.rs.getString("orientador"));
         } catch (SQLException erro) {
             System.err.println(erro.toString());
             return null;

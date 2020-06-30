@@ -12,42 +12,46 @@ import model.Search;
  *
  * @author joao
  */
-public class PesquisaDAO extends DAO {
+public class SearchDAO extends DAO {
 
-    private Search pesquisa;
+    private Search search;
 
-    public PesquisaDAO(Search pesquisa) {
-        this.pesquisa = pesquisa;
+    public SearchDAO(Search search) {
+        this.search = search;
     }
 
-    public PesquisaDAO() {
+    public SearchDAO() {
     }
 
-    public boolean criarPesquisa() {
+    public boolean add() {
         String sql = "insert into Pesquisa values (?,?,?,?,?)";
         bd.getConnection();
+
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setString(1, pesquisa.body);
+            bd.st.setString(1, search.body);
             bd.st.setTimestamp(2, getCurrentTimeStamp());
             bd.st.setTimestamp(3, getCurrentTimeStamp());
-            bd.st.setInt(4, pesquisa.progressId);
-            bd.st.setInt(5, pesquisa.userId);
+            bd.st.setInt(4, search.progressId);
+            bd.st.setInt(5, search.userId);
             bd.st.executeUpdate();
+
             return true;
-        } catch (SQLException erro) {
+        } catch (SQLException e) {
+            System.err.println(e.toString());
             return false;
         } finally {
             bd.close();
         }
     }
 
-    public Search ultimaPesquisa() {
+    public Search last() {
         String sql = "SELECT TOP 1  * FROM Pesquisa WHERE id_Usuario = ? ORDER BY id DESC";
         bd.getConnection();
+        
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, pesquisa.userId);
+            bd.st.setInt(1, search.userId);
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
 
@@ -55,7 +59,8 @@ public class PesquisaDAO extends DAO {
                     bd.rs.getInt("id_Progresso"),
                     bd.rs.getInt("id_Usuario"),
                     bd.rs.getString("corpo"));
-        } catch (SQLException erro) {
+        } catch (SQLException e) {
+            System.err.println(e.toString());
             return null;
         } finally {
             bd.close();

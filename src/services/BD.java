@@ -26,12 +26,8 @@ public class BD {
         try {
             Class.forName(DRIVER);
             con = DriverManager.getConnection(URL);
-            //System.out.println("Conectou!");
-
-        } catch (SQLException erro) {
-            System.out.println("Falha na conexão ao banco! " + erro.toString());
-        } catch (ClassNotFoundException erro) {
-            System.out.println("Driver não encontrado!");
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println( e.toString());
         }
         return true;
     }
@@ -49,9 +45,9 @@ public class BD {
             }
             if (con != null) {
                 con.close();
-                //System.out.println("Desconectou!");
             }
         } catch (SQLException e) {
+            System.err.println(e.toString());
         }
     }
 }

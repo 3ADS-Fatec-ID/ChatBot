@@ -48,7 +48,7 @@ public class RegisterIntent extends Intent {
                     return (new RegisterCourseIntent()).run(args);
                 } else if (progress.name.equals(Progress.courseRegistrationResponse)) {
                     return (new CourseRegistrationResponseIntent()).run(args);
-                } else if (progress.name.equals(Progress.termsAcceptance)) {
+                } else if (shouldForwardToTermsAcceptanceIntent(progress)) {
                     return (new TermsAcceptanceIntent()).run(args);
                 }
             }
@@ -64,7 +64,9 @@ public class RegisterIntent extends Intent {
      * @return
      */
     private boolean shouldRegisterUniversity(Progress progress) {
-        return progress.name.equals(Progress.universityRegistration) || progress.name.equals(Progress.universityRegistrationResponseNegative) || progress.name.equals(Progress.universityRegistrationCanceled);
+        return progress.name.equals(Progress.universityRegistration)
+                || progress.name.equals(Progress.universityRegistrationResponseNegative)
+                || progress.name.equals(Progress.universityRegistrationCanceled);
     }
 
     /**
@@ -74,7 +76,21 @@ public class RegisterIntent extends Intent {
      * @return
      */
     private boolean shouldRegisterCourse(Progress progress) {
-        return progress.name.equals(Progress.courseRegistration) || progress.name.equals(Progress.courseRegistrationCanceled) || progress.name.equals(Progress.courseRegistrationResponseNegative);
+        return progress.name.equals(Progress.courseRegistration)
+                || progress.name.equals(Progress.courseRegistrationCanceled)
+                || progress.name.equals(Progress.courseRegistrationResponseNegative);
+    }
+
+    /**
+     * Checks whatever we should forward the message to the
+     * "TermsAcceptanceIntent"
+     *
+     * @param progress
+     * @return
+     */
+    private boolean shouldForwardToTermsAcceptanceIntent(Progress progress) {
+        return progress.name.equals(Progress.termsAcceptance)
+                || progress.name.equals(Progress.termsRefused);
     }
 
     /**

@@ -25,6 +25,7 @@ public class Progress {
     public static String courseRegistrationResponse = "CAD_CURSO_RESP";
     public static String courseRegistrationResponseNegative = "CAD_CURSO_RESP_NEG";
     public static String termsAcceptance = "CAD_TERMO";
+    public static String termsRefused = "CAD_TERMO_NEG";
     public static String registrationCompleted = "CAD_FIM";
     public static String searchNotFound = "PES_RES_NEG";
     public static String confirmation = "CONF";

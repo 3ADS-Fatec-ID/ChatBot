@@ -61,8 +61,8 @@ public class PesquisaIntent extends Intent {
                         } else {
                             DuvidaDAO duvidaDAO = new DuvidaDAO();
                             Duvida duvida = duvidaDAO.pesquisarDuvida(pesquisavel.idDuvida);
-                            String titulo = "<b>Dúvida: </b>" + duvida.nomeDuvida;
-                            String corpo = "<b>Resposta: </b>" + duvida.descricaoDuvida;
+                            String titulo = "**Dúvida:** " + duvida.nomeDuvida;
+                            String corpo = "**Resposta:** " + duvida.descricaoDuvida;
                             finalMessage += "\n" + titulo + "\n" + corpo + "\n";
                         }
 

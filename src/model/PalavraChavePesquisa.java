@@ -47,7 +47,7 @@ public class PalavraChavePesquisa {
             return false;
         }
         final PalavraChavePesquisa other = (PalavraChavePesquisa) obj;
-        if (this.id != other.id) {
+        if (this.id != other.id || this.idPesquisavel != other.idPesquisavel) {
             return false;
         }
         return true;

@@ -39,7 +39,6 @@ public class Telegram extends TelegramLongPollingBot {
             execute(message);
             System.out.println("Mensagem Enviada: " + msg + " - Para: " + chatId);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
             System.out.println("Erro no envio da mensagem: " + msg + " - Para: " + chatId);
         }
     }

@@ -83,8 +83,6 @@ public class PesquisaIntent extends Intent {
                             String corpo = "**Resposta:** " + duvida.descricaoDuvida;
                             finalMessage[index] = "\n" + titulo + "\n" + corpo
                                     .replace(". ", ".\n")
-                                    .replace(": ", ":\n")
-                                    .replace(".", ".\n")
                                     .replace(": ", ":\n");
                         }
                         index++;

@@ -59,9 +59,14 @@ INSERT INTO Mensagem_Dominio VALUES (15,'beleza',GETDATE(),GETDATE(),9)
 INSERT INTO Mensagem_Dominio VALUES (15,'okey',GETDATE(),GETDATE(),9)
 INSERT INTO Mensagem_Dominio VALUES (15,'blz',GETDATE(),GETDATE(),9)
 INSERT INTO Mensagem_Dominio VALUES (16,'Você permite que todas as suas informações sejam armazenadas e utilizadas para a melhoria do aplicativo?',GETDATE(),GETDATE(),1)
-
+INSERT INTO Mensagem_Dominio VALUES (17,'Que pena, não encontrei nada, tente novamente!',GETDATE(),GETDATE(),4)
+INSERT INTO Mensagem_Dominio VALUES (17,'Oi ainda não entendi o que precisa, pode tentar outra vez.',GETDATE(),GETDATE(),4)
+INSERT INTO Mensagem_Dominio VALUES (17,'Pode continuar tentando....',GETDATE(),GETDATE(),4)
+INSERT INTO Mensagem_Dominio VALUES (17,'Estou aqui para ajudar, mas desse vez não entendi direito, o que precisa ...',GETDATE(),GETDATE(),4)
+INSERT INTO Mensagem_Dominio VALUES (15,'yes',GETDATE(),GETDATE(),9)
+INSERT INTO Mensagem_Dominio VALUES (15,'y',GETDATE(),GETDATE(),9)
+INSERT INTO Mensagem_Dominio VALUES (15,'of course',GETDATE(),GETDATE(),9)
 
 SELECT * FROM Mensagem_Dominio 
-
 
 

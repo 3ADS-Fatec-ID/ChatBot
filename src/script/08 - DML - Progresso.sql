@@ -18,5 +18,7 @@ INSERT INTO Progresso VALUES ('CAD_ERRO')
 INSERT INTO Progresso VALUES ('NEG')
 INSERT INTO Progresso VALUES ('CONF')
 INSERT INTO Progresso VALUES ('CAD_TERMO')
+INSERT INTO Progresso VALUES ('PES_RES_NEG')
+
 
 select * from Progresso ORDER BY ID

@@ -63,7 +63,7 @@ public class PesquisaIntent extends Intent {
                 if (palavraChavePesquisasDistinct.length > 0) {
                     int index = 1;
                     finalMessage = new String[palavraChavePesquisasDistinct.length + 1];
-                    finalMessage[0] = "**Os resultados encontrados foram: **";
+                    finalMessage[0] = "Os resultados encontrados foram:";
 
                     for (PalavraChavePesquisa palavraChavePesquisa : palavraChavePesquisasDistinct) {
                         PesquisavelDAO pesquisavelDAO = new PesquisavelDAO();

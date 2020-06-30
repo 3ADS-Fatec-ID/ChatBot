@@ -2,13 +2,13 @@ package dao;
 
 import java.sql.SQLException;
 import java.sql.Date;
-import model.Aluno;
+import model.Student;
 
 public class AlunoDAO extends DAO {
 
-    private final Aluno aluno;
+    private final Student aluno;
 
-    public AlunoDAO(Aluno aluno) {
+    public AlunoDAO(Student aluno) {
         this.aluno = aluno;
     }
 
@@ -17,8 +17,8 @@ public class AlunoDAO extends DAO {
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setString(1, aluno.nomeUsuario);
-            bd.st.setLong(2, aluno.idTelegram);
+            bd.st.setString(1, aluno.name);
+            bd.st.setLong(2, aluno.telegramId);
             bd.st.setTimestamp(3, getCurrentTimeStamp());
             bd.st.setTimestamp(4, getCurrentTimeStamp());
             bd.st.executeUpdate();
@@ -37,7 +37,7 @@ public class AlunoDAO extends DAO {
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, aluno.idCursoUniversidade);
+            bd.st.setInt(1, aluno.universityCourseId);
             bd.st.setInt(2, aluno.id);
             int n = bd.st.executeUpdate();
             return n == 1;
@@ -53,7 +53,7 @@ public class AlunoDAO extends DAO {
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, aluno.idUniversidade);
+            bd.st.setInt(1, aluno.universityId);
             bd.st.setInt(2, aluno.id);
             int n = bd.st.executeUpdate();
             return n == 1;
@@ -69,7 +69,7 @@ public class AlunoDAO extends DAO {
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setBoolean(1, aluno.termoAceite);
+            bd.st.setBoolean(1, aluno.termAccepted);
             bd.st.setInt(2, aluno.id);
             int n = bd.st.executeUpdate();
             return n == 1;
@@ -100,7 +100,7 @@ public class AlunoDAO extends DAO {
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setLong(1, aluno.idTelegram);
+            bd.st.setLong(1, aluno.telegramId);
             bd.rs = bd.st.executeQuery();
             return bd.rs.next();
         } catch (SQLException erro) {
@@ -110,15 +110,15 @@ public class AlunoDAO extends DAO {
         }
     }
 
-    public Aluno encontrarAluno() {
+    public Student encontrarAluno() {
         String sql = "select * from Usuario where id_telegram = ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setLong(1, aluno.idTelegram);
+            bd.st.setLong(1, aluno.telegramId);
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
-            return new Aluno(bd.rs.getInt("id"),
+            return new Student(bd.rs.getInt("id"),
                     bd.rs.getInt("id_curso_universidade"),
                     bd.rs.getInt("id_telegram"),
                     bd.rs.getBoolean("termoAceite"),

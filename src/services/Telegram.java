@@ -1,6 +1,6 @@
 package services;
 
-import intent.MainIntent;
+import intent.main.MainIntent;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

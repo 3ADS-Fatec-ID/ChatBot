@@ -6,7 +6,7 @@
 package dao;
 
 import java.sql.SQLException;
-import model.Pesquisavel;
+import model.Searchable;
 
 /**
  *
@@ -14,16 +14,16 @@ import model.Pesquisavel;
  */
 public class PesquisavelDAO extends DAO {
 
-    private Pesquisavel pesquisavel;
+    private Searchable pesquisavel;
 
     public PesquisavelDAO() {
     }
 
-    public PesquisavelDAO(Pesquisavel pesquisavel) {
+    public PesquisavelDAO(Searchable pesquisavel) {
         this.pesquisavel = pesquisavel;
     }
 
-    public Pesquisavel pesquisarPesquisavel(int id) {
+    public Searchable pesquisarPesquisavel(int id) {
         String sql = "SELECT * FROM Pesquisavel WHERE id = ?";
         bd.getConnection();
         try {
@@ -32,7 +32,7 @@ public class PesquisavelDAO extends DAO {
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
 
-            return new Pesquisavel(bd.rs.getInt("id"),
+            return new Searchable(bd.rs.getInt("id"),
                     bd.rs.getInt("id_Acervo"),
                     bd.rs.getInt("id_Duvida"));
         } catch (SQLException erro) {

@@ -9,21 +9,22 @@ package model;
  *
  * @author joao
  */
-public class PalavraChave {
+public class Question {
 
     public int id;
-    public String nomePalavraChave;
+    public String name, description;
 
-    public PalavraChave() {
+    public Question() {
     }
 
-    public PalavraChave(int id, String nomePalavraChave) {
+    public Question(int id, String name, String description) {
         this.id = id;
-        this.nomePalavraChave = nomePalavraChave;
+        this.name = name;
+        this.description = description;
     }
 
     @Override
     public String toString() {
-        return "PalavraChave{" + "id=" + id + ", nomePalavraChave=" + nomePalavraChave + '}';
+        return "Duvida{" + "id=" + id + ", nomeDuvida=" + name + ", descricaoDuvida=" + description + '}';
     }
 }

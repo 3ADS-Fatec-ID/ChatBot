@@ -6,7 +6,7 @@
 package dao;
 
 import java.sql.SQLException;
-import model.Duvida;
+import model.Question;
 
 /**
  *
@@ -14,16 +14,16 @@ import model.Duvida;
  */
 public class DuvidaDAO extends DAO {
 
-    private Duvida duvida;
+    private Question duvida;
 
     public DuvidaDAO() {
     }
 
-    public DuvidaDAO(Duvida duvida) {
+    public DuvidaDAO(Question duvida) {
         this.duvida = duvida;
     }
 
-    public Duvida pesquisarDuvida(int id) {
+    public Question pesquisarDuvida(int id) {
         String sql = "SELECT * FROM Duvida WHERE id = ?";
         bd.getConnection();
         try {
@@ -32,7 +32,7 @@ public class DuvidaDAO extends DAO {
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
 
-            return new Duvida(bd.rs.getInt("id"),
+            return new Question(bd.rs.getInt("id"),
                     bd.rs.getString("nomeDuvida"),
                     bd.rs.getString("descricaoDuvida"));
         } catch (SQLException erro) {

@@ -3,10 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package intent;
+package intent.main;
 
+import intent.search.SearchIntent;
+import intent.register.RegisterIntent;
 import dao.AlunoDAO;
-import model.Aluno;
+import intent.Intent;
+import intent.IntentDTO;
+import model.Student;
 
 /**
  *
@@ -22,28 +26,28 @@ public class MainIntent extends Intent {
      */
     @Override
     public IntentDTO run(String... args) {
-        Aluno aluno = new Aluno();
+        Student aluno = new Student();
         
-        aluno.idTelegram = Long.parseLong(args[0]);
-        aluno.nomeUsuario = args[1];
+        aluno.telegramId = Long.parseLong(args[0]);
+        aluno.name = args[1];
         
         AlunoDAO alunoDAO = new AlunoDAO(aluno);
         String msgRec = args[2];
         
-        System.out.println("Mensagem Recebida: " + msgRec + " - Nome: " + aluno.nomeUsuario + " - ChatId: " + aluno.idTelegram);
+        System.out.println("Mensagem Recebida: " + msgRec + " - Nome: " + aluno.name + " - ChatId: " + aluno.telegramId);
         
         if (alunoDAO.verificarCadastro()) {
             /**
              * Aluno Casdastrado
              */
            
-            return (new PesquisaIntent()).run(args[0], args[1], args[2]);
+            return (new SearchIntent()).run(args[0], args[1], args[2]);
         } else {
             /**
              * Fazer cadastro do aluno
              */
             
-            return (new CadastroIntent()).run(args[0], args[1], args[2]);
+            return (new RegisterIntent()).run(args[0], args[1], args[2]);
         }
     }
     

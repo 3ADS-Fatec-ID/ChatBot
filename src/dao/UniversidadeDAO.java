@@ -6,7 +6,7 @@
 package dao;
 
 import java.sql.SQLException;
-import model.Universidade;
+import model.University;
 
 /**
  *
@@ -14,24 +14,24 @@ import model.Universidade;
  */
 public class UniversidadeDAO extends DAO {
 
-    private Universidade universidade;
+    private University universidade;
 
     public UniversidadeDAO() {
     }
 
-    public UniversidadeDAO(Universidade universidade) {
+    public UniversidadeDAO(University universidade) {
         this.universidade = universidade;
     }
 
-    public Universidade pegarUniversidade() {
+    public University pegarUniversidade() {
         String sql = "select * from Universidade where nomeUniversidade like ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setString(1, "%" + universidade.nomeUniversidade + "%");
+            bd.st.setString(1, "%" + universidade.name + "%");
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
-            return new Universidade(bd.rs.getInt("id"),
+            return new University(bd.rs.getInt("id"),
                     bd.rs.getInt("id_endereco"),
                     bd.rs.getString("nomeUniversidade"),
                     bd.rs.getString("descricaoUniversidade")

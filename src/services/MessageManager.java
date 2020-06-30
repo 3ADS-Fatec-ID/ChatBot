@@ -8,8 +8,8 @@ import io.github.crew102.rapidrake.model.Result;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
-import model.MensagemDominio;
-import model.Progresso;
+import model.DomainMessage;
+import model.Progress;
 
 public class MessageManager {
 
@@ -21,13 +21,13 @@ public class MessageManager {
     public static boolean checkAnswer(String text) {
         MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
 
-        ArrayList<MensagemDominio> negativas = mensagemDominioDAO.listMessage(Progresso.negacao);
-        if (!negativas.stream().noneMatch(mensagemDominio -> (mensagemDominio.corpoMensagemDominio.equals(text.toLowerCase())))) {
+        ArrayList<DomainMessage> negativas = mensagemDominioDAO.listMessage(Progress.negative);
+        if (!negativas.stream().noneMatch(mensagemDominio -> (mensagemDominio.body.equals(text.toLowerCase())))) {
             return false;
         }
 
-        ArrayList<MensagemDominio> positivas = mensagemDominioDAO.listMessage(Progresso.confirmacao);
-        return positivas.stream().anyMatch(mensagemDominio -> (mensagemDominio.corpoMensagemDominio.equals(text.toLowerCase())));
+        ArrayList<DomainMessage> positivas = mensagemDominioDAO.listMessage(Progress.confirmation);
+        return positivas.stream().anyMatch(mensagemDominio -> (mensagemDominio.body.equals(text.toLowerCase())));
     }
 
     public static String[] extractKeywords(String text) throws IOException {

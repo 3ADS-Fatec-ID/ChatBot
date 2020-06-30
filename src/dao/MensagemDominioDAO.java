@@ -3,13 +3,13 @@ package dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
-import model.MensagemDominio;
+import model.DomainMessage;
 
 public class MensagemDominioDAO extends DAO {
     
-    private MensagemDominio mensagemDominio;
+    private DomainMessage mensagemDominio;
     
-    public MensagemDominioDAO(MensagemDominio mensagemDominio) {
+    public MensagemDominioDAO(DomainMessage mensagemDominio) {
         this.mensagemDominio = mensagemDominio;
     }
     
@@ -17,20 +17,20 @@ public class MensagemDominioDAO extends DAO {
         super();
     }
     
-    public MensagemDominio findMessage() {
+    public DomainMessage findMessage() {
         String sql = "select * from mensagem_dominio where id_Progresso = ? and id_Tipo_Mensagem_Dominio = ?";
         bd.getConnection();
         
-        ArrayList<MensagemDominio> md = new ArrayList<>();
+        ArrayList<DomainMessage> md = new ArrayList<>();
         
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, mensagemDominio.idProgesso);
+            bd.st.setInt(1, mensagemDominio.progressId);
             bd.st.setInt(2, mensagemDominio.idTipoMensagemDominio);
             bd.rs = bd.st.executeQuery();
             
             while (bd.rs.next()) {
-                md.add(new MensagemDominio(
+                md.add(new DomainMessage(
                         bd.rs.getString("corpoMensagemDominio"),
                         bd.rs.getInt("id_Tipo_Mensagem_Dominio"),
                         bd.rs.getInt("id_Progresso")));
@@ -46,11 +46,11 @@ public class MensagemDominioDAO extends DAO {
         }
     }
     
-    public MensagemDominio findMessage(String nomeProgresso) {
+    public DomainMessage findMessage(String nomeProgresso) {
         String sql = "select * from Mensagem_Dominio md, Progresso p where md.id_Progresso = p.id and p.nomeProgresso = ?";
         bd.getConnection();
         
-        ArrayList<MensagemDominio> md = new ArrayList<>();
+        ArrayList<DomainMessage> md = new ArrayList<>();
         
         try {
             bd.st = bd.con.prepareStatement(sql);
@@ -58,7 +58,7 @@ public class MensagemDominioDAO extends DAO {
             bd.rs = bd.st.executeQuery();
             
             while (bd.rs.next()) {
-                md.add(new MensagemDominio(
+                md.add(new DomainMessage(
                         bd.rs.getString("corpoMensagemDominio"),
                         bd.rs.getInt("id_Tipo_Mensagem_Dominio"),
                         bd.rs.getInt("id_Progresso")));
@@ -74,11 +74,11 @@ public class MensagemDominioDAO extends DAO {
         }
     }
     
-    public ArrayList<MensagemDominio> listMessage(String nomeProgresso) {
+    public ArrayList<DomainMessage> listMessage(String nomeProgresso) {
         String sql = "select * from Mensagem_Dominio md, Progresso p where md.id_Progresso = p.id and p.nomeProgresso = ?";
         bd.getConnection();
         
-        ArrayList<MensagemDominio> md = new ArrayList<>();
+        ArrayList<DomainMessage> md = new ArrayList<>();
         
         try {
             bd.st = bd.con.prepareStatement(sql);
@@ -86,7 +86,7 @@ public class MensagemDominioDAO extends DAO {
             bd.rs = bd.st.executeQuery();
             
             while (bd.rs.next()) {
-                md.add(new MensagemDominio(
+                md.add(new DomainMessage(
                         bd.rs.getString("corpoMensagemDominio"),
                         bd.rs.getInt("id_Tipo_Mensagem_Dominio"),
                         bd.rs.getInt("id_Progresso")));

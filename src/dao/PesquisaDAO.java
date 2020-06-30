@@ -6,7 +6,7 @@
 package dao;
 
 import java.sql.SQLException;
-import model.Pesquisa;
+import model.Search;
 
 /**
  *
@@ -14,9 +14,9 @@ import model.Pesquisa;
  */
 public class PesquisaDAO extends DAO {
 
-    private Pesquisa pesquisa;
+    private Search pesquisa;
 
-    public PesquisaDAO(Pesquisa pesquisa) {
+    public PesquisaDAO(Search pesquisa) {
         this.pesquisa = pesquisa;
     }
 
@@ -28,11 +28,11 @@ public class PesquisaDAO extends DAO {
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setString(1, pesquisa.corpo);
+            bd.st.setString(1, pesquisa.body);
             bd.st.setTimestamp(2, getCurrentTimeStamp());
             bd.st.setTimestamp(3, getCurrentTimeStamp());
-            bd.st.setInt(4, pesquisa.idProgresso);
-            bd.st.setInt(5, pesquisa.idUsuario);
+            bd.st.setInt(4, pesquisa.progressId);
+            bd.st.setInt(5, pesquisa.userId);
             bd.st.executeUpdate();
             return true;
         } catch (SQLException erro) {
@@ -42,16 +42,16 @@ public class PesquisaDAO extends DAO {
         }
     }
 
-    public Pesquisa ultimaPesquisa() {
+    public Search ultimaPesquisa() {
         String sql = "SELECT TOP 1  * FROM Pesquisa WHERE id_Usuario = ? ORDER BY id DESC";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
-            bd.st.setInt(1, pesquisa.idUsuario);
+            bd.st.setInt(1, pesquisa.userId);
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
 
-            return new Pesquisa(bd.rs.getInt("id"),
+            return new Search(bd.rs.getInt("id"),
                     bd.rs.getInt("id_Progresso"),
                     bd.rs.getInt("id_Usuario"),
                     bd.rs.getString("corpo"));

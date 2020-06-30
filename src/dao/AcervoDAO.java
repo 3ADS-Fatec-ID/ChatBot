@@ -6,7 +6,7 @@
 package dao;
 
 import java.sql.SQLException;
-import model.Acervo;
+import model.Collection;
 
 /**
  *
@@ -14,16 +14,16 @@ import model.Acervo;
  */
 public class AcervoDAO extends DAO {
 
-    private Acervo acervo;
+    private Collection acervo;
 
     public AcervoDAO() {
     }
 
-    public AcervoDAO(Acervo acervo) {
+    public AcervoDAO(Collection acervo) {
         this.acervo = acervo;
     }
 
-    public Acervo pesquisarAcervo(int id) {
+    public Collection pesquisarAcervo(int id) {
         String sql = "SELECT * FROM Acervo WHERE id = ?";
         bd.getConnection();
         try {
@@ -32,7 +32,7 @@ public class AcervoDAO extends DAO {
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
 
-            return new Acervo(bd.rs.getInt("id"),
+            return new Collection(bd.rs.getInt("id"),
                     bd.rs.getString("autor"),
                     bd.rs.getString("tema"),
                     bd.rs.getString("orientador"));

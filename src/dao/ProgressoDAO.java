@@ -7,9 +7,9 @@ package dao;
 
 import java.sql.SQLException;
 
-import model.Aluno;
-import model.Pesquisa;
-import model.Progresso;
+import model.Student;
+import model.Search;
+import model.Progress;
 
 /**
  *
@@ -17,16 +17,16 @@ import model.Progresso;
  */
 public class ProgressoDAO extends DAO {
 
-    private Progresso progresso;
+    private Progress progresso;
 
-    public ProgressoDAO(Progresso progresso) {
+    public ProgressoDAO(Progress progresso) {
         this.progresso = progresso;
     }
 
     public ProgressoDAO() {
     }
 
-    public Progresso pegarProgresso(String nome) {
+    public Progress pegarProgresso(String nome) {
         String sql = "select * from Progresso where nomeProgresso = ?";
         bd.getConnection();
         try {
@@ -34,7 +34,7 @@ public class ProgressoDAO extends DAO {
             bd.st.setString(1, nome);
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
-            return new Progresso(bd.rs.getInt("id"),
+            return new Progress(bd.rs.getInt("id"),
                     bd.rs.getString("nomeProgresso"));
         } catch (SQLException erro) {
             return null;
@@ -43,7 +43,7 @@ public class ProgressoDAO extends DAO {
         }
     }
 
-    public Progresso pegarProgresso(int id) {
+    public Progress pegarProgresso(int id) {
         String sql = "select * from Progresso where id = ?";
         bd.getConnection();
         try {
@@ -51,7 +51,7 @@ public class ProgressoDAO extends DAO {
             bd.st.setInt(1, id);
             bd.rs = bd.st.executeQuery();
             bd.rs.next();
-            return new Progresso(bd.rs.getInt("id"),
+            return new Progress(bd.rs.getInt("id"),
                     bd.rs.getString("nomeProgresso"));
         } catch (SQLException erro) {
             return null;
@@ -60,16 +60,16 @@ public class ProgressoDAO extends DAO {
         }
     }
 
-    public Progresso pegarProgresso(Aluno aluno) {
-        PesquisaDAO pesquisaDAO = new PesquisaDAO(new Pesquisa(aluno.id));
-        Pesquisa pesquisa = pesquisaDAO.ultimaPesquisa();
+    public Progress pegarProgresso(Student aluno) {
+        PesquisaDAO pesquisaDAO = new PesquisaDAO(new Search(aluno.id));
+        Search pesquisa = pesquisaDAO.ultimaPesquisa();
 
         if (pesquisa == null) {
             return null;
         } else {
             ProgressoDAO progressoDAO = new ProgressoDAO();
-            Progresso progresso = progressoDAO.pegarProgresso(pesquisa.idProgresso);
-            System.out.println("Progresso está em: " + progresso.nomeProgresso);
+            Progress progresso = progressoDAO.pegarProgresso(pesquisa.progressId);
+            System.out.println("Progresso está em: " + progresso.name);
             return progresso;
         }
 

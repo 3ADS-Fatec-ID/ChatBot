@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package intent;
+package intent.search;
 
 import dao.AcervoDAO;
 import dao.AlunoDAO;
@@ -13,17 +13,19 @@ import dao.PalavraChavePesquisaDAO;
 import dao.PesquisaDAO;
 import dao.PesquisavelDAO;
 import dao.ProgressoDAO;
+import intent.Intent;
+import intent.IntentDTO;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import model.Acervo;
-import model.Aluno;
-import model.Duvida;
-import model.MensagemDominio;
-import model.PalavraChavePesquisa;
-import model.Pesquisa;
-import model.Pesquisavel;
-import model.Progresso;
+import model.Collection;
+import model.Student;
+import model.Question;
+import model.DomainMessage;
+import model.KeywordSearch;
+import model.Search;
+import model.Searchable;
+import model.Progress;
 import services.MessageManager;
 import services.Predicates;
 
@@ -31,22 +33,22 @@ import services.Predicates;
  *
  * @author joao
  */
-public class PesquisaIntent extends Intent {
+public class SearchIntent extends Intent {
 
     @Override
     public IntentDTO run(String... args) {
-        Aluno aluno = new Aluno();
-        aluno.idTelegram = Long.parseLong(args[0]);
-        aluno.nomeUsuario = args[1];
+        Student aluno = new Student();
+        aluno.telegramId = Long.parseLong(args[0]);
+        aluno.name = args[1];
         String message = args[2];
 
         AlunoDAO alunoDAO = new AlunoDAO(aluno);
 
-        Aluno alunoEncontrado = alunoDAO.encontrarAluno();
+        Student alunoEncontrado = alunoDAO.encontrarAluno();
 
         try {
             String[] keywords = MessageManager.extractKeywords(message);
-            ArrayList<PalavraChavePesquisa> palavraChavePesquisas = new ArrayList<>();
+            ArrayList<KeywordSearch> palavraChavePesquisas = new ArrayList<>();
             if (keywords.length > 0 && !"".equals(keywords[0])) {
                 for (String keyword : keywords) {
                     System.out.println(keyword);
@@ -54,10 +56,10 @@ public class PesquisaIntent extends Intent {
                     palavraChavePesquisas.addAll(palavraChavePesquisaDAO.listarPalavraChavePesquisas(keyword, alunoEncontrado));
                 }
 
-                PalavraChavePesquisa[] palavraChavePesquisasDistinct;
+                KeywordSearch[] palavraChavePesquisasDistinct;
                 palavraChavePesquisasDistinct = palavraChavePesquisas.stream()
-                        .filter(Predicates.distinctByKey(p -> p.idPesquisavel))
-                        .limit(5).toArray(PalavraChavePesquisa[]::new);
+                        .filter(Predicates.distinctByKey(p -> p.searchableId))
+                        .limit(5).toArray(KeywordSearch[]::new);
                 String[] finalMessage;
 
                 if (palavraChavePesquisasDistinct.length > 0) {
@@ -65,22 +67,22 @@ public class PesquisaIntent extends Intent {
                     finalMessage = new String[palavraChavePesquisasDistinct.length + 1];
                     finalMessage[0] = "Os resultados encontrados foram:";
 
-                    for (PalavraChavePesquisa palavraChavePesquisa : palavraChavePesquisasDistinct) {
+                    for (KeywordSearch palavraChavePesquisa : palavraChavePesquisasDistinct) {
                         PesquisavelDAO pesquisavelDAO = new PesquisavelDAO();
-                        Pesquisavel pesquisavel = pesquisavelDAO.pesquisarPesquisavel(palavraChavePesquisa.idPesquisavel);
+                        Searchable pesquisavel = pesquisavelDAO.pesquisarPesquisavel(palavraChavePesquisa.searchableId);
 
-                        if (pesquisavel.idAcervo != 0) {
+                        if (pesquisavel.collectionId != 0) {
                             AcervoDAO acervoDAO = new AcervoDAO();
-                            Acervo acervo = acervoDAO.pesquisarAcervo(pesquisavel.idAcervo);
-                            String tema = "Tema: " + acervo.tema;
-                            String autor = "Autor: " + acervo.autor;
-                            String orientador = "Orientador: " + acervo.orientador;
+                            Collection acervo = acervoDAO.pesquisarAcervo(pesquisavel.collectionId);
+                            String tema = "Tema: " + acervo.theme;
+                            String autor = "Autor: " + acervo.author;
+                            String orientador = "Orientador: " + acervo.advisor;
                             finalMessage[index] = "\n" + tema + "\n" + autor + "\n" + orientador;
                         } else {
                             DuvidaDAO duvidaDAO = new DuvidaDAO();
-                            Duvida duvida = duvidaDAO.pesquisarDuvida(pesquisavel.idDuvida);
-                            String titulo = "Dúvida: " + duvida.nomeDuvida;
-                            String corpo = "Resposta: " + duvida.descricaoDuvida;
+                            Question duvida = duvidaDAO.pesquisarDuvida(pesquisavel.questionId);
+                            String titulo = "Dúvida: " + duvida.name;
+                            String corpo = "Resposta: " + duvida.description;
                             finalMessage[index] = "\n" + titulo + "\n" + corpo
                                     .replace(". ", ".\n")
                                     .replace(": ", ":\n");
@@ -88,32 +90,32 @@ public class PesquisaIntent extends Intent {
                         index++;
                     }
 
-                    return new IntentDTO(String.join("\n", finalMessage), alunoEncontrado.idTelegram);
+                    return new IntentDTO(String.join("\n", finalMessage), alunoEncontrado.telegramId);
                 }
             }
 
             return pesquisaNaoEncontrada(alunoEncontrado, message);
         } catch (IOException ex) {
             System.err.println(ex.toString());
-            return new IntentDTO(ex.toString(), alunoEncontrado.idTelegram);
+            return new IntentDTO(ex.toString(), alunoEncontrado.telegramId);
         }
     }
 
-    private IntentDTO pesquisaNaoEncontrada(Aluno aluno, String message) {
+    private IntentDTO pesquisaNaoEncontrada(Student aluno, String message) {
         /**
          * O pesquisa usuário não encontrada
          */
 
         MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
-        MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.pesquisaNegativaResposta);
+        DomainMessage mensagemDominio = mensagemDominioDAO.findMessage(Progress.searchNotFound);
 
-        Progresso progresso = (new ProgressoDAO()).pegarProgresso(Progresso.pesquisaNegativaResposta);
-        Pesquisa pesquisa = new Pesquisa(progresso.id, aluno.id, message);
+        Progress progresso = (new ProgressoDAO()).pegarProgresso(Progress.searchNotFound);
+        Search pesquisa = new Search(progresso.id, aluno.id, message);
         PesquisaDAO pesquisaDAO = new PesquisaDAO(pesquisa);
         pesquisaDAO.criarPesquisa();
 
-        String msg = mensagemDominio.corpoMensagemDominio;
-        return new IntentDTO(msg, aluno.idTelegram);
+        String msg = mensagemDominio.body;
+        return new IntentDTO(msg, aluno.telegramId);
     }
 
 }

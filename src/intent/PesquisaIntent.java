@@ -45,27 +45,34 @@ public class PesquisaIntent extends Intent {
                     PalavraChavePesquisaDAO palavraChavePesquisaDAO = new PalavraChavePesquisaDAO();
                     palavraChavePesquisas.addAll(palavraChavePesquisaDAO.listarPalavraChavePesquisas(keyword, alunoEncontrado));
                 }
-                
+
                 String finalMessage = "Os resultados encontrados foram:\n";
                 PalavraChavePesquisa[] palavraChavePesquisasDistinct = palavraChavePesquisas.stream().distinct().sorted().limit(5).toArray(PalavraChavePesquisa[]::new);
-                for (PalavraChavePesquisa palavraChavePesquisa : palavraChavePesquisasDistinct) {
-                    PesquisavelDAO pesquisavelDAO = new PesquisavelDAO();
-                    Pesquisavel pesquisavel = pesquisavelDAO.pesquisarPesquisavel(palavraChavePesquisa.idPesquisavel);
 
-                    if (pesquisavel.idAcervo != 0) {
-                        AcervoDAO acervoDAO = new AcervoDAO();
-                        Acervo acervo = acervoDAO.pesquisarAcervo(pesquisavel.idAcervo);
-                        finalMessage += "";
-                    } else {
-                        DuvidaDAO duvidaDAO = new DuvidaDAO();
-                        Duvida duvida = duvidaDAO.pesquisarDuvida(pesquisavel.idDuvida);
-                        String titulo = "Dúvida: " + duvida.nomeDuvida;
-                        String corpo = "Resposta: " + duvida.descricaoDuvida;
-                        finalMessage += titulo + "\n" + corpo + "\n";
+                if (palavraChavePesquisasDistinct.length > 0) {
+                    for (PalavraChavePesquisa palavraChavePesquisa : palavraChavePesquisasDistinct) {
+                        PesquisavelDAO pesquisavelDAO = new PesquisavelDAO();
+                        Pesquisavel pesquisavel = pesquisavelDAO.pesquisarPesquisavel(palavraChavePesquisa.idPesquisavel);
+
+                        if (pesquisavel.idAcervo != 0) {
+                            AcervoDAO acervoDAO = new AcervoDAO();
+                            Acervo acervo = acervoDAO.pesquisarAcervo(pesquisavel.idAcervo);
+                            finalMessage += "";
+                        } else {
+                            DuvidaDAO duvidaDAO = new DuvidaDAO();
+                            Duvida duvida = duvidaDAO.pesquisarDuvida(pesquisavel.idDuvida);
+                            String titulo = "<b>Dúvida: </b>" + duvida.nomeDuvida;
+                            String corpo = "<b>Resposta: </b>" + duvida.descricaoDuvida;
+                            finalMessage += "\n" + titulo + "\n" + corpo + "\n";
+                        }
+
                     }
+                    return new IntentDTO(finalMessage, alunoEncontrado.idTelegram);
+                } else {
+                    return new IntentDTO("Nenhum resultado foi encontrado, tente novamente!", alunoEncontrado.idTelegram);
 
                 }
-                return new IntentDTO(finalMessage, alunoEncontrado.idTelegram);
+
             } else {
                 return new IntentDTO("Não foi possível processar sua mensagem, tente novamente!", alunoEncontrado.idTelegram);
             }

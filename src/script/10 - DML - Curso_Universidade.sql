@@ -295,3 +295,5 @@ INSERT INTO Curso_Universidade VALUES (35,73)
 INSERT INTO Curso_Universidade VALUES (23,73)
 
 SELECT U.nomeUniversidade, C.nomeCurso FROM Curso_Universidade CU, Universidade U , Curso C WHERE CU.id_curso = C.id AND CU.id_universidade = U.id
+
+SELECT * FROM 

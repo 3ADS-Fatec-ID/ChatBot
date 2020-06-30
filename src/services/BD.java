@@ -15,11 +15,11 @@ public class BD {
 	
 	private final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; 
 	private final String BANCO = "BOT";
-	private final String URL = "jdbc:sqlserver://localhost:1433;databasename="+BANCO+";integratedSecurity=true";
+	private final String URL = "jdbc:sqlserver://localhost:1433;databasename="+BANCO+";integratedSecurity=true&characterEncoding=utf-8";
 	
 	/**
-	 * Realiza a conexão ao banco de dados
-	 * @return - true em caso de sucesso, ou false caso contrário
+	 * Realiza a conexï¿½o ao banco de dados
+	 * @return - true em caso de sucesso, ou false caso contrï¿½rio
 	 */
 	public boolean getConnection() {
 		try {
@@ -29,16 +29,16 @@ public class BD {
 	
 		}
 		catch(SQLException erro) {
-			System.out.println("Falha na conexão ao banco! " + erro.toString());
+			System.out.println("Falha na conexï¿½o ao banco! " + erro.toString());
 		}
 		catch(ClassNotFoundException erro) {
-			System.out.println("Driver não encontrado!");
+			System.out.println("Driver nï¿½o encontrado!");
 		}
 		return true;
 	}
 	
 	/**
-	 * Encerra a conexão (con, st, rs)
+	 * Encerra a conexï¿½o (con, st, rs)
 	 */
 	public void close() {
 		try {
@@ -57,7 +57,7 @@ public class BD {
 //	public static void main(String[] args) {
 //		BD bd = new BD();
 //		bd.getConnection();
-		// executo a ação
+		// executo a aï¿½ï¿½o
 //		bd.close();
 //	}
 	

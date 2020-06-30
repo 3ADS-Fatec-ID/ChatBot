@@ -85,7 +85,6 @@ public class PesquisaIntent extends Intent {
                     return new IntentDTO(String.join("\n", finalMessage), alunoEncontrado.idTelegram);
                 } else {
                     return pesquisaNaoEncontrada(alunoEncontrado, message);
-
                 }
 
             } else {
@@ -101,8 +100,6 @@ public class PesquisaIntent extends Intent {
         /**
          * O pesquisa usuário não encontrada
          */
-
-        AlunoDAO alunoDAO = new AlunoDAO(aluno);
 
         MensagemDominioDAO mensagemDominioDAO = new MensagemDominioDAO();
         MensagemDominio mensagemDominio = mensagemDominioDAO.findMessage(Progresso.pesquisaNegativaResposta);

@@ -80,4 +80,41 @@ BEGIN
    SET @cnt = @cnt + 1;
 END;
 
-select * from Palavra_Chave_Pesquisa
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),71,70,31)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),72,45,32)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),73,5,32)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),74,5,34)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),75,45,35)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),76,45,36)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),77,37,37)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),78,13,38)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),79,45,39)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),80,37,40)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),81,5,41)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),82,13,42)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),83,37,43)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),84,37,44)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),84,37,45)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),85,37,46)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),86,13,47)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),87,5,48)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),88,37,49)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),83,37,50)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),89,37,51)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),89,37,52)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),89,37,53)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),90,5,54)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),91,5,55)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),92,37,56)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),93,37,57)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),94,37,58)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),94,37,59)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),95,45,60)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),96,5,61)
+INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),97,37,62)
+
+SELECT * FROM Palavra_Chave_Pesquisa
+
+
+
+

@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Voice;
 
 /**
  * Bot class. Forwards all the messages to the MainIntent.
@@ -27,9 +28,10 @@ public class Telegram extends TelegramLongPollingBot {
 
         if (message.getVoice() != null) {
             try {
-                InputStream voice = this.downloadFileAsStream(message.getVoice().getFileId());
+                Voice voice = message.getVoice();
+                InputStream audio = this.downloadFileAsStream(voice.getFileId());
                 Watson watson = new Watson();
-                watson.convert(voice);
+                watson.convert(audio);
             } catch (TelegramApiException ex) {
                 System.err.println(ex.toString());
             }

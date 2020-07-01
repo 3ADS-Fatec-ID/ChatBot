@@ -1,2 +1,3 @@
 /target/
-src/lib/Watson.xml
+src/lib/watson.json
+src/lib/telegram.json

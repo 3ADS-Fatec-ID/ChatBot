@@ -86,7 +86,7 @@ public class StudentDAO extends DAO {
     }
 
     public boolean delete() {
-        String sql = "UPDATE Usuario SET termoAceite = false, id_Universidade = NULL, id_curso_universidade = NULL where id = ?";
+        String sql = "UPDATE Usuario SET termoAceite = 0, id_Universidade = NULL, id_curso_universidade = NULL where id = ?";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);

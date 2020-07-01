@@ -6,14 +6,10 @@
 package intent.commad;
 
 import dao.DomainMessageDAO;
-import dao.ProgressDAO;
-import dao.SearchDAO;
 import intent.Intent;
 import intent.IntentDTO;
 import model.DomainMessage;
 import model.Progress;
-import model.Search;
-import services.MessageManager;
 
 /**
  *
@@ -21,13 +17,15 @@ import services.MessageManager;
  */
 public class CommandIntent extends Intent {
 
-    public static String[] commands = {"/ajuda"};
+    public static String[] commands = {"/ajuda", "/reset"};
 
     @Override
     public IntentDTO run(String... args) {
         this.setup(args);
 
         switch (message) {
+            case "/reset":
+                return reset();
             case "/ajuda":
             default:
                 return help();
@@ -44,6 +42,15 @@ public class CommandIntent extends Intent {
 
         String response = domainMessage.body;
         return new IntentDTO(response, foundStudent.telegramId);
+    }
+
+    private IntentDTO reset() {
+        if (foundStudent != null) {
+            studentDAO.delete();
+            return new IntentDTO("Seu registro foi resetado.", student.telegramId);
+        } else {
+            return new IntentDTO("Você ainda não está registrado.", student.telegramId);
+        }
     }
 
 }

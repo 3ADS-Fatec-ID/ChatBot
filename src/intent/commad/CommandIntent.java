@@ -43,7 +43,7 @@ public class CommandIntent extends Intent {
         DomainMessage domainMessage = domainMessageDAO.find(Progress.help);
 
         String response = domainMessage.body;
-        return new IntentDTO(response, foundStudent.telegramId);
+        return new IntentDTO(response, student.telegramId);
     }
 
 }

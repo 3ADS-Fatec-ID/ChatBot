@@ -33,6 +33,7 @@ public class Progress {
     public static String resetFailed = "RESET_FAILED";
     public static String confirmation = "CONF";
     public static String negative = "NEG";
+    public static String searchFound = "PES_RES_OK";
 
     public Progress() {
     }

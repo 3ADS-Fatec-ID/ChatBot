@@ -50,12 +50,12 @@ public class CommandIntent extends Intent {
     private IntentDTO reset() {
         if (foundStudent != null) {
             studentDAO.delete();
-
+            
             DomainMessageDAO domainMessageDAO = new DomainMessageDAO();
             DomainMessage domainMessage = domainMessageDAO.find(Progress.reset);
 
             Progress progress = (new ProgressDAO()).find(Progress.reset);
-            Search search = new Search(progress.id, student.id, message);
+            Search search = new Search(progress.id, foundStudent.id, message);
             SearchDAO searchDAO = new SearchDAO(search);
             searchDAO.add();
 

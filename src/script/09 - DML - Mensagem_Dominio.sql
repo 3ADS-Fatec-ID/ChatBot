@@ -68,6 +68,8 @@ INSERT INTO Mensagem_Dominio VALUES (15,'y',GETDATE(),GETDATE(),9)
 INSERT INTO Mensagem_Dominio VALUES (15,'of course',GETDATE(),GETDATE(),9)
 INSERT INTO Mensagem_Dominio VALUES (18,'{nome}, não podemos prosseguir com a sua pesquisa. Volte novamente quando mudar de ideia. E aceite os termos de uso.(S/N)',GETDATE(),GETDATE(),1)
 INSERT INTO Mensagem_Dominio VALUES (19,'Eu sou o @FATEC_Helper, fui criado pelos Alunos do 3º Semestre de ADS de 2020. Meu objetivo é auxiliar você a realizar seu PTG de maneira simples, tirando suas dúvidas em relação as normas e estrutura, além de informar sobre um acervo de PTG existentes. Sempre que uma perguntar aparecer e você encontrar (S/N), utilize-o como respostas. O restante das perguntas é você quem decide a melhor resposta.',GETDATE(),GETDATE(),5)
+INSERT INTO Mensagem_Dominio VALUES (20,'Seu registro foi resetado.',GETDATE(),GETDATE(),1)
+INSERT INTO Mensagem_Dominio VALUES (21,'Você ainda não está registrado.',GETDATE(),GETDATE(),1)
 
 SELECT * FROM Mensagem_Dominio 
 

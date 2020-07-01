@@ -79,7 +79,7 @@ public class SearchIntent extends Intent {
                     Searchable searchable = searchableDAO.find(keywordSearch.searchableId);
 
                     if (searchable.collectionId != 0) {
-                        CollectionDAO collectionDAO = new CollectionDAO();
+                    	CollectionDAO collectionDAO = new CollectionDAO();
                         Collection collection = collectionDAO.find(searchable.collectionId);
                         String theme = "Tema: " + collection.theme;
                         String author = "Autor: " + collection.author;

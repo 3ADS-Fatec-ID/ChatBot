@@ -6,10 +6,13 @@
 package intent.commad;
 
 import dao.DomainMessageDAO;
+import dao.ProgressDAO;
+import dao.SearchDAO;
 import intent.Intent;
 import intent.IntentDTO;
 import model.DomainMessage;
 import model.Progress;
+import model.Search;
 
 /**
  *
@@ -47,8 +50,14 @@ public class CommandIntent extends Intent {
     private IntentDTO reset() {
         if (foundStudent != null) {
             studentDAO.delete();
+
             DomainMessageDAO domainMessageDAO = new DomainMessageDAO();
             DomainMessage domainMessage = domainMessageDAO.find(Progress.reset);
+
+            Progress progress = (new ProgressDAO()).find(Progress.reset);
+            Search search = new Search(progress.id, student.id, message);
+            SearchDAO searchDAO = new SearchDAO(search);
+            searchDAO.add();
 
             String response = domainMessage.body;
             return new IntentDTO(response, student.telegramId);

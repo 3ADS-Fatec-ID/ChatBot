@@ -36,7 +36,9 @@ public class RegisterIntent extends Intent {
             Progress progress = progressDAO.pegarProgresso(foundStudent);
 
             if (progress != null) {
-                if (progress.name.equals(Progress.initialRegistration)) {
+                if (progress.name.equals(Progress.reset)) {
+                    return (new RegistrationResetIntention()).run(args);
+                } else if (progress.name.equals(Progress.initialRegistration)) {
                     return (new InititalRegistrationIntent()).run(args);
                 } else if (progress.name.equals(Progress.registrationCanceled)) {
                     return (new RegistrationCanceledIntent()).run(args);

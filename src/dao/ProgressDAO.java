@@ -66,7 +66,7 @@ public class ProgressDAO extends DAO {
         }
     }
 
-    public Progress pegarProgresso(Student aluno) {
+    public Progress findProgress(Student aluno) {
         SearchDAO pesquisaDAO = new SearchDAO(new Search(aluno.id));
         Search pesquisa = pesquisaDAO.last();
 

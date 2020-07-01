@@ -33,36 +33,45 @@ import services.Predicates;
  */
 public class SearchIntent extends Intent {
 
+    /**
+     * 0 - telegramId 1 - studentName 2- message
+     *
+     * @param args
+     * @return
+     */
     @Override
     public IntentDTO run(String... args) {
         this.setup(args);
 
-        
         Progress progress = (new ProgressDAO()).find(Progress.searchNotFound);
         Search search = new Search(progress.id, foundStudent.id, message);
         SearchDAO searchDAO = new SearchDAO(search);
         searchDAO.add();
-        
+
         String[] keywords = MessageManager.extractKeywords(message);
-        ArrayList<KeywordSearch> KeywordSearches = new ArrayList<>();
 
         if (keywords.length > 0 && !"".equals(keywords[0])) {
+            ArrayList<KeywordSearch> KeywordSearches = new ArrayList<>();
+            KeywordSearch[] keywordSearchDistinct;
+
             for (String keyword : keywords) {
-                System.out.println(keyword);
                 KeywordSearchDAO keywordSearchDAO = new KeywordSearchDAO();
                 KeywordSearches.addAll(keywordSearchDAO.list(keyword, foundStudent, search));
             }
 
-            KeywordSearch[] keywordSearchDistinct;
-            
-            keywordSearchDistinct = KeywordSearches.stream()
-                    .filter(Predicates.distinctByKey(p -> p.searchableId))
-                    .limit(5).toArray(KeywordSearch[]::new);
-            String[] finalMessage;
-
-            if (keywordSearchDistinct.length > 0) {
+            if (KeywordSearches.size() > 0) {
+                /**
+                 * Filter the List of "keywordSearches" by their "searchableId".
+                 * This ensures we'll only have one occurrence of each
+                 * "searchable". Here we also limit the List to it's first 5
+                 * values, so it can be displayed without hassle.
+                 */
+                keywordSearchDistinct = KeywordSearches.stream()
+                        .filter(Predicates.distinctByKey(p -> p.searchableId))
+                        .limit(5).toArray(KeywordSearch[]::new);
+                String[] finalMessage = new String[keywordSearchDistinct.length + 1];
                 int index = 1;
-                finalMessage = new String[keywordSearchDistinct.length + 1];
+
                 finalMessage[0] = "Os resultados encontrados foram:";
 
                 for (KeywordSearch keywordSearch : keywordSearchDistinct) {

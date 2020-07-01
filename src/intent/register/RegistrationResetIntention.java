@@ -29,6 +29,8 @@ public class RegistrationResetIntention extends Intent {
      */
     @Override
     public IntentDTO run(String... args) {
+        this.setup(args);
+
         DomainMessageDAO domainMessageDAO = new DomainMessageDAO();
         DomainMessage domainMessage = domainMessageDAO.find(Progress.initialRegistration);
 
@@ -37,7 +39,7 @@ public class RegistrationResetIntention extends Intent {
 
         student = studentDAO.find();
         Progress progress = (new ProgressDAO()).find(Progress.initialRegistration);
-        Search search = new Search(progress.id, student.id, message);
+        Search search = new Search(progress.id, foundStudent.id, message);
         SearchDAO searchDAO = new SearchDAO(search);
         searchDAO.add();
 

@@ -76,7 +76,9 @@ public class SearchIntent extends Intent {
                         String description = "Resposta: " + question.description;
                         finalMessage[index] = "\n" + name + "\n" + description
                                 .replace(". ", ".\n")
-                                .replace(": ", ":\n");
+                                .replace(": ", ":\n")
+                                .replace("? ", "\n")
+                                .replace("! ", "\n");
                     }
                     index++;
                 }

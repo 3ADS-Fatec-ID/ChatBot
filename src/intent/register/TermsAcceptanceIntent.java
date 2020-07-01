@@ -26,7 +26,7 @@ public class TermsAcceptanceIntent extends Intent {
     @Override
     public IntentDTO run(String... args) {
         this.setup(args);
-        
+
         if (MessageManager.checkAnswer(message)) {
             return registerTerms();
         } else {
@@ -64,8 +64,18 @@ public class TermsAcceptanceIntent extends Intent {
      * @return
      */
     private IntentDTO warnInability() {
-        // TODO move to the DB
-        return new IntentDTO("Não podemos prosseguir com a sua pesquisa. Volte novamente quando mudar de ideia.", foundStudent.telegramId);
+        DomainMessageDAO domainMessageDAO = new DomainMessageDAO();
+        DomainMessage domainMessage = domainMessageDAO.find(Progress.termsRefused);
+
+        String response = domainMessage.body;
+        response = MessageManager.replaceValue(response, "nome", foundStudent.name);
+
+        Progress progress = (new ProgressDAO()).find(Progress.termsRefused);
+        Search search = new Search(progress.id, foundStudent.id, message);
+        SearchDAO searchDAO = new SearchDAO(search);
+        searchDAO.add();
+
+        return new IntentDTO(response, foundStudent.telegramId);
     }
 
 }

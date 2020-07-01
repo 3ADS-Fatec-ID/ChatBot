@@ -47,9 +47,17 @@ public class CommandIntent extends Intent {
     private IntentDTO reset() {
         if (foundStudent != null) {
             studentDAO.delete();
-            return new IntentDTO("Seu registro foi resetado.", student.telegramId);
+            DomainMessageDAO domainMessageDAO = new DomainMessageDAO();
+            DomainMessage domainMessage = domainMessageDAO.find(Progress.reset);
+
+            String response = domainMessage.body;
+            return new IntentDTO(response, student.telegramId);
         } else {
-            return new IntentDTO("Você ainda não está registrado.", student.telegramId);
+            DomainMessageDAO domainMessageDAO = new DomainMessageDAO();
+            DomainMessage domainMessage = domainMessageDAO.find(Progress.resetFailed);
+
+            String response = domainMessage.body;
+            return new IntentDTO(response, student.telegramId);
         }
     }
 

@@ -29,6 +29,8 @@ public class Progress {
     public static String registrationCompleted = "CAD_FIM";
     public static String searchNotFound = "PES_RES_NEG";
     public static String help = "HELP";
+    public static String reset = "RESET";
+    public static String resetFailed = "RESET_FAILED";
     public static String confirmation = "CONF";
     public static String negative = "NEG";
 

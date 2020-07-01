@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Student;
 import model.KeywordSearch;
+import model.Search;
 
 /**
  *
@@ -25,7 +26,7 @@ public class KeywordSearchDAO extends DAO {
         this.keywordSearch = keywordSearch;
     }
 
-    public ArrayList<KeywordSearch> list(String keyword, Student student) {
+    public ArrayList<KeywordSearch> list(String keyword, Student student, Search search) {
         String sql = "SELECT pcp.* FROM Palavra_Chave AS pc\n"
                 + "    INNER JOIN Palavra_Chave_Pesquisa AS pcp ON pc.id = pcp.id_Palavra_Chave\n"
                 + "    INNER JOIN Curso_Universidade AS c ON c.id_curso = pcp.id_curso\n"
@@ -39,11 +40,14 @@ public class KeywordSearchDAO extends DAO {
             bd.st.setString(1, '%' + keyword + '%');
             bd.st.setInt(2, student.id);
             bd.rs = bd.st.executeQuery();
-
+            int id_Palavra_Chave;
             while (bd.rs.next()) {
-                keywordSearches.add(new KeywordSearch(
-                        bd.rs.getInt("id"),
-                        bd.rs.getInt("id_Palavra_Chave"),
+            	id_Palavra_Chave = bd.rs.getInt("id_Palavra_Chave");
+            	SearchDAO searchDAO = new SearchDAO();
+            	searchDAO.addHistory(id_Palavra_Chave, search);
+            	keywordSearches.add(new KeywordSearch(
+            			bd.rs.getInt("id"),
+            			id_Palavra_Chave,
                         bd.rs.getInt("id_curso"),
                         bd.rs.getInt("id_Pesquisavel"))
                 );

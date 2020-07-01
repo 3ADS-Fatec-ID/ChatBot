@@ -7,11 +7,16 @@ package intent.main;
 
 import intent.search.SearchIntent;
 import intent.register.RegisterIntent;
+import dao.ProgressDAO;
+import dao.SearchDAO;
 import dao.StudentDAO;
 import intent.Intent;
 import intent.IntentDTO;
 import intent.commad.CommandIntent;
 import java.util.Arrays;
+
+import model.Progress;
+import model.Search;
 import model.Student;
 
 /**
@@ -31,6 +36,7 @@ public class MainIntent extends Intent {
 
         System.out.println("Mensagem Recebida: " + message + " - Nome: " + student.name + " - ChatId: " + student.telegramId);
 
+                
         if (Arrays.asList(CommandIntent.commands).contains(message)) {
             /**
              * The message is a command, so, forward it to the CommandIntent
@@ -40,13 +46,11 @@ public class MainIntent extends Intent {
             /**
              * The Student is registered, handle the searching
              */
-
             return (new SearchIntent()).run(args);
         } else {
             /**
              * The student needs to be registered
              */
-
             return (new RegisterIntent()).run(args);
         }
     }

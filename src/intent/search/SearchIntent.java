@@ -37,6 +37,12 @@ public class SearchIntent extends Intent {
     public IntentDTO run(String... args) {
         this.setup(args);
 
+        
+        Progress progress = (new ProgressDAO()).find(Progress.searchNotFound);
+        Search search = new Search(progress.id, foundStudent.id, message);
+        SearchDAO searchDAO = new SearchDAO(search);
+        searchDAO.add();
+        
         String[] keywords = MessageManager.extractKeywords(message);
         ArrayList<KeywordSearch> KeywordSearches = new ArrayList<>();
 
@@ -44,10 +50,11 @@ public class SearchIntent extends Intent {
             for (String keyword : keywords) {
                 System.out.println(keyword);
                 KeywordSearchDAO keywordSearchDAO = new KeywordSearchDAO();
-                KeywordSearches.addAll(keywordSearchDAO.list(keyword, foundStudent));
+                KeywordSearches.addAll(keywordSearchDAO.list(keyword, foundStudent, search));
             }
 
             KeywordSearch[] keywordSearchDistinct;
+            
             keywordSearchDistinct = KeywordSearches.stream()
                     .filter(Predicates.distinctByKey(p -> p.searchableId))
                     .limit(5).toArray(KeywordSearch[]::new);
@@ -82,7 +89,6 @@ public class SearchIntent extends Intent {
                     }
                     index++;
                 }
-
                 return new IntentDTO(String.join("\n", finalMessage), foundStudent.telegramId);
             }
         }

@@ -114,7 +114,3 @@ INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),96,5,61)
 INSERT INTO Palavra_Chave_Pesquisa VALUES (GETDATE(),97,37,62)
 
 SELECT * FROM Palavra_Chave_Pesquisa
-
-
-
-

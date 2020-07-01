@@ -43,11 +43,6 @@ public class SearchIntent extends Intent {
     public IntentDTO run(String... args) {
         this.setup(args);
 
-        Progress progress = (new ProgressDAO()).find(Progress.searchNotFound);
-        Search search = new Search(progress.id, foundStudent.id, message);
-        SearchDAO searchDAO = new SearchDAO(search);
-        searchDAO.add();
-
         String[] keywords = MessageManager.extractKeywords(message);
 
         if (keywords.length > 0 && !"".equals(keywords[0])) {
@@ -56,10 +51,22 @@ public class SearchIntent extends Intent {
 
             for (String keyword : keywords) {
                 KeywordSearchDAO keywordSearchDAO = new KeywordSearchDAO();
-                KeywordSearches.addAll(keywordSearchDAO.list(keyword, foundStudent, search));
+                KeywordSearches.addAll(keywordSearchDAO.list(keyword, foundStudent));
             }
 
             if (KeywordSearches.size() > 0) {
+                /**
+                 * Save the results that were found
+                 */
+                Progress progress = (new ProgressDAO()).find(Progress.searchFound);
+                Search search = new Search(progress.id, foundStudent.id, message);
+                SearchDAO searchDAO = new SearchDAO(search);
+                searchDAO.add();
+
+                for (KeywordSearch keywordSearch : KeywordSearches) {
+                    searchDAO.addHistory(keywordSearch.keywordId, search);
+                }
+
                 /**
                  * Filter the List of "keywordSearches" by their "searchableId".
                  * This ensures we'll only have one occurrence of each
@@ -79,7 +86,7 @@ public class SearchIntent extends Intent {
                     Searchable searchable = searchableDAO.find(keywordSearch.searchableId);
 
                     if (searchable.collectionId != 0) {
-                    	CollectionDAO collectionDAO = new CollectionDAO();
+                        CollectionDAO collectionDAO = new CollectionDAO();
                         Collection collection = collectionDAO.find(searchable.collectionId);
                         String theme = "Tema: " + collection.theme;
                         String author = "Autor: " + collection.author;
@@ -101,6 +108,14 @@ public class SearchIntent extends Intent {
                 return new IntentDTO(String.join("\n", finalMessage), foundStudent.telegramId);
             }
         }
+
+        /**
+         * No results were found
+         */
+        Progress progress = (new ProgressDAO()).find(Progress.searchNotFound);
+        Search search = new Search(progress.id, foundStudent.id, message);
+        SearchDAO searchDAO = new SearchDAO(search);
+        searchDAO.add();
 
         return searchNotFound(foundStudent, message);
     }

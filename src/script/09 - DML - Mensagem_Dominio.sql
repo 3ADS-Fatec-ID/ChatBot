@@ -71,6 +71,8 @@ INSERT INTO Mensagem_Dominio VALUES (19,'Eu sou o @FATEC_Helper, fui criado pelo
 INSERT INTO Mensagem_Dominio VALUES (20,'Seu registro foi resetado.',GETDATE(),GETDATE(),1)
 INSERT INTO Mensagem_Dominio VALUES (21,'Você ainda não está registrado.',GETDATE(),GETDATE(),1)
 INSERT INTO Mensagem_Dominio VALUES (15,'isso',GETDATE(),GETDATE(),9)
+INSERT INTO Mensagem_Dominio VALUES (15,'aceito',GETDATE(),GETDATE(),9)
+INSERT INTO Mensagem_Dominio VALUES (14,'nao aceito',GETDATE(),GETDATE(),8)
 
 SELECT * FROM Mensagem_Dominio 
 

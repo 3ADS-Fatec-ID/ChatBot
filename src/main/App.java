@@ -4,6 +4,8 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import services.Telegram;
+import services.Http;
+import spark.*;
 
 /**
  * Application class.
@@ -20,12 +22,20 @@ public class App {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws InterruptedException, java.io.IOException {
-        ApiContextInitializer.init();
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        try {
-            telegramBotsApi.registerBot(new Telegram());
-        } catch (TelegramApiException e) {
-            System.err.println(e.toString());
+        String type = args.length == 0 ? "api" : args[0];
+        switch (type) {
+            case "api":
+                Spark.port(4567);
+                Spark.post("/messages", Http.messages);
+                break;
+            default:
+                ApiContextInitializer.init();
+                TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+                try {
+                    telegramBotsApi.registerBot(new Telegram());
+                } catch (TelegramApiException e) {
+                    System.err.println(e.toString());
+                }
         }
     }
 }

@@ -21,9 +21,22 @@ public class App {
      * @throws InterruptedException
      * @throws java.io.IOException
      */
+	
     public static void main(String[] args) throws InterruptedException, java.io.IOException {
         String type = args.length == 0 ? "api" : args[0];
-        switch (type) {
+        
+        Spark.port(4567);
+        Spark.post("/messages", Http.messages);
+        
+        ApiContextInitializer.init();
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+        try {
+            telegramBotsApi.registerBot(new Telegram());
+        } catch (TelegramApiException e) {
+            System.err.println(e.toString());
+        }
+        
+       /* switch (type) {
             case "api":
                 Spark.port(4567);
                 Spark.post("/messages", Http.messages);
@@ -36,6 +49,6 @@ public class App {
                 } catch (TelegramApiException e) {
                     System.err.println(e.toString());
                 }
-        }
+        }*/
     }
 }

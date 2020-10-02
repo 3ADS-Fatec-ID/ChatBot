@@ -30,6 +30,26 @@ public class StudentDAO extends DAO {
             bd.close();
         }
     }
+    
+    public boolean addWithEmail() {
+        String sql = "insert into Usuario (nomeUsuario, id_telegram, email,criado_em, editado_em) values (?, (select max (id_telegram)+1 from Usuario),?,?)";
+        bd.getConnection();
+        try {
+            bd.st = bd.con.prepareStatement(sql);
+            bd.st.setString(1, student.name);
+            bd.st.setString(2, student.email);
+            bd.st.setTimestamp(3, getCurrentTimeStamp());
+            bd.st.setTimestamp(4, getCurrentTimeStamp());
+            bd.st.executeUpdate();
+            
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e);
+            return false;
+        } finally {
+            bd.close();
+        }
+    }
 
     public boolean updateCourse() {
         String sql = "update Usuario set id_curso_universidade = ? where id = ?";
@@ -117,6 +137,22 @@ public class StudentDAO extends DAO {
         }
     }
 
+    public boolean existsByEmail() {
+        String sql = "select * from Usuario where email = ?";
+        bd.getConnection();
+        try {
+            bd.st = bd.con.prepareStatement(sql);
+            bd.st.setString(1, student.email);
+            bd.rs = bd.st.executeQuery();
+            return bd.rs.next();
+        } catch (SQLException e) {
+            System.err.println(e.toString());
+            return false;
+        } finally {
+            bd.close();
+        }
+    }
+    
     public Student find() {
         String sql = "select * from Usuario where id_telegram = ?";
         bd.getConnection();
@@ -139,6 +175,30 @@ public class StudentDAO extends DAO {
         }
     }
 
+    
+    public Student findByEmail(String email) {
+        String sql = "select * from Usuario where email = ?";
+        bd.getConnection();
+        try {
+            bd.st = bd.con.prepareStatement(sql);
+            bd.st.setString(1, email);
+            bd.rs = bd.st.executeQuery();
+            bd.rs.next();
+            return new Student(bd.rs.getInt("id"),
+                    bd.rs.getInt("id_curso_universidade"),
+                    bd.rs.getInt("id_telegram"),
+                    bd.rs.getBoolean("termoAceite"),
+                    bd.rs.getString("nomeUsuario"),
+                    bd.rs.getInt("id_Universidade"),
+                    bd.rs.getString("email"));
+        } catch (SQLException e) {
+            System.err.println(e.toString());
+            return null;
+        } finally {
+            bd.close();
+        }
+    }
+    
     public void deleteUniversity() {
         String sql = "update Usuario set id_Universidade = NULL where id = ?";
         bd.getConnection();

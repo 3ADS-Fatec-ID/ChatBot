@@ -36,6 +36,7 @@ id_telegram bigint UNIQUE not null,
 termoAceite bit not null DEFAULT 0,
 id_Universidade int REFERENCES Universidade,
 id_curso_universidade int REFERENCES Curso_Universidade,
+id_telegram varchar (250) UNIQUE,
 criado_em datetime not null,
 editado_em datetime not null)
 

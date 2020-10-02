@@ -27,6 +27,7 @@ public class App {
         
         Spark.port(4567);
         Spark.post("/messages", Http.messages);
+        Spark.post("/start", Http.start);
         
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
@@ -35,20 +36,5 @@ public class App {
         } catch (TelegramApiException e) {
             System.err.println(e.toString());
         }
-        
-       /* switch (type) {
-            case "api":
-                Spark.port(4567);
-                Spark.post("/messages", Http.messages);
-                break;
-            default:
-                ApiContextInitializer.init();
-                TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-                try {
-                    telegramBotsApi.registerBot(new Telegram());
-                } catch (TelegramApiException e) {
-                    System.err.println(e.toString());
-                }
-        }*/
     }
 }

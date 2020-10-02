@@ -32,7 +32,7 @@ public class StudentDAO extends DAO {
     }
     
     public boolean addWithEmail() {
-        String sql = "insert into Usuario (nomeUsuario, id_telegram, email,criado_em, editado_em) values (?, (select max (id_telegram)+1 from Usuario),?,?)";
+        String sql = "insert into Usuario (nomeUsuario, id_telegram, email,criado_em, editado_em) values (?, (select max (id_telegram)+1 from Usuario),?,?,?)";
         bd.getConnection();
         try {
             bd.st = bd.con.prepareStatement(sql);
@@ -186,7 +186,7 @@ public class StudentDAO extends DAO {
             bd.rs.next();
             return new Student(bd.rs.getInt("id"),
                     bd.rs.getInt("id_curso_universidade"),
-                    bd.rs.getInt("id_telegram"),
+                    bd.rs.getLong("id_telegram"),
                     bd.rs.getBoolean("termoAceite"),
                     bd.rs.getString("nomeUsuario"),
                     bd.rs.getInt("id_Universidade"),

@@ -20,15 +20,16 @@ public class Http {
 
     public static Route start = (Request req, Response res) -> {
         IStartRequest request = new Gson().fromJson(req.body(), IStartRequest.class);
-        student = new Student();
+        Student student = new Student();
         student.email = request.email;
         student.name = request.name;
-        studentDAO = new StudentDAO(student);
-        if (!studentDao.existsByEmail()) {
+        StudentDAO studentDAO = new StudentDAO(student);
+        if (!studentDAO.existsByEmail()) {
             studentDAO.addWithEmail();
         }
+        Long telegramId = studentDAO.findByEmail(student.email).telegramId;
     	return new Gson().toJson(new StandardReponse(
-            studentDAO.findByEmail(student.email).telegramId
+            Long.toString(telegramId)
         ));
     };
 }

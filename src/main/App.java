@@ -23,7 +23,6 @@ public class App {
      */
 	
     public static void main(String[] args) throws InterruptedException, java.io.IOException {
-        String type = args.length == 0 ? "api" : args[0];
         
         Spark.port(4567);
         Spark.post("/messages", Http.messages);

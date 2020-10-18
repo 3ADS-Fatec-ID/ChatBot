@@ -36,6 +36,7 @@ public class Http {
 
     public static Route audios = (Request req, Response res) -> {
         Part uploadedFile = request.raw().getPart("audio");
+        String messageText = "";
         try (final InputStream in = uploadedFile.getInputStream()) {
             Watson watson = new Watson();
             messageText = watson.convert(audio);

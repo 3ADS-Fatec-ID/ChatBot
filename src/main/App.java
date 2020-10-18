@@ -25,6 +25,29 @@ public class App {
     public static void main(String[] args) throws InterruptedException, java.io.IOException {
         
         Spark.port(4567);
+        
+        Spark.options("/*",
+                (request, response) -> {
+
+                    String accessControlRequestHeaders = request
+                            .headers("Access-Control-Request-Headers");
+                    if (accessControlRequestHeaders != null) {
+                        response.header("Access-Control-Allow-Headers",
+                                accessControlRequestHeaders);
+                    }
+
+                    String accessControlRequestMethod = request
+                            .headers("Access-Control-Request-Method");
+                    if (accessControlRequestMethod != null) {
+                        response.header("Access-Control-Allow-Methods",
+                                accessControlRequestMethod);
+                    }
+
+                    return "OK";
+                });
+
+        Spark.before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
+        
         Spark.post("/messages", Http.messages);
         Spark.post("/start", Http.start);
         

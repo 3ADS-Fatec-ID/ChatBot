@@ -1,7 +1,5 @@
 package services;
 
-import static spark.Spark.post;
-
 import com.google.gson.Gson;
 
 import intent.main.MainIntent;
@@ -14,7 +12,10 @@ import model.Student;
 public class Http {
     public static Route messages = (Request req, Response res) -> {
     	IMessagesRequest request = new Gson().fromJson(req.body(), IMessagesRequest.class);
-    	intent.IntentDTO result = (new MainIntent()).run(request.id, "WEB-USER", request.message);
+    	Student student = new Student();
+    	student.telegramId = Long.parseLong(request.id);
+        StudentDAO studentDAO = new StudentDAO(student);
+      	intent.IntentDTO result = (new MainIntent()).run(request.id, studentDAO.find().name, request.message);
         return new Gson().toJson(new StandardReponse(result.getMessage()));
     };
 

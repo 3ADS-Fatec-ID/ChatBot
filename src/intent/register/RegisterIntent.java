@@ -143,13 +143,15 @@ public class RegisterIntent extends Intent {
         String response = domainMessage.body;
         response = MessageManager.replaceValue(response, "nome", student.name);
 
-        if (studentDAO.add()) {
-            student = studentDAO.find();
-            Progress progress = (new ProgressDAO()).find(Progress.initialRegistration);
-            Search search = new Search(progress.id, student.id, message);
-            SearchDAO searchDAO = new SearchDAO(search);
-            searchDAO.add();
+        if (!studentDAO.existsByEmail()) {
+        	studentDAO.add();
         }
+        	
+        student = studentDAO.find();
+        Progress progress = (new ProgressDAO()).find(Progress.initialRegistration);
+        Search search = new Search(progress.id, student.id, message);
+        SearchDAO searchDAO = new SearchDAO(search);
+        searchDAO.add();
 
         return new IntentDTO(response, student.telegramId);
     }

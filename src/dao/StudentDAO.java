@@ -163,10 +163,11 @@ public class StudentDAO extends DAO {
             bd.rs.next();
             return new Student(bd.rs.getInt("id"),
                     bd.rs.getInt("id_curso_universidade"),
-                    bd.rs.getInt("id_telegram"),
+                    bd.rs.getLong("id_telegram"),
                     bd.rs.getBoolean("termoAceite"),
                     bd.rs.getString("nomeUsuario"),
-                    bd.rs.getInt("id_Universidade"));
+                    bd.rs.getInt("id_Universidade"),
+            		bd.rs.getString("email"));
         } catch (SQLException e) {
             System.err.println(e.toString());
             return null;

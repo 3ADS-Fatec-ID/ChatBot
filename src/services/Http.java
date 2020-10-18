@@ -35,6 +35,8 @@ public class Http {
     };
 
     public static Route audios = (Request req, Response res) -> {
+        MultipartConfigElement multipartConfigElement = new MultipartConfigElement("/tmp");
+        request.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement);
         Part uploadedFile = request.raw().getPart("audio");
         String messageText = "";
         try (final InputStream in = uploadedFile.getInputStream()) {

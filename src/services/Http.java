@@ -33,6 +33,19 @@ public class Http {
             Long.toString(telegramId)
         ));
     };
+
+    public static Route audios = (Request req, Response res) -> {
+        Part uploadedFile = request.raw().getPart("audio");
+        try (final InputStream in = uploadedFile.getInputStream()) {
+            Watson watson = new Watson();
+            messageText = watson.convert(audio);
+        }
+    	Student student = new Student();
+    	student.telegramId = Long.parseLong(request.raw().getPart("id"));
+        StudentDAO studentDAO = new StudentDAO(student);
+      	intent.IntentDTO result = (new MainIntent()).run(request.raw().getPart("id"), studentDAO.find().name, messageText);
+        return new Gson().toJson(new StandardReponse(result.getMessage()));
+    }
 }
 
 class StandardReponse {
@@ -44,6 +57,11 @@ class StandardReponse {
 }
 
 class IMessagesRequest {
+    public String message;
+    public String id;
+}
+
+class IAudiosRequest {
     public String message;
     public String id;
 }

@@ -49,6 +49,7 @@ public class App {
         Spark.before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
         
         Spark.post("/messages", Http.messages);
+        Spark.post("/audios", "multipart/form-data", Http.audios);
         Spark.post("/start", Http.start);
         
         ApiContextInitializer.init();
